@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+
+@layer components{
+    .card{
+       @apply w-52 border-2 border-red-200 p-4 text-red-400
+    }
+}
+
+@layer utilities{
+   .btn{
+      @apply bg-red-400 text-green-100
+   }
+}
