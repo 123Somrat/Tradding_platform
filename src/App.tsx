@@ -1,14 +1,9 @@
-import Form from "./Components/Form";
-
-
+import MainLayouts from "./Layouts/MainLayouts/MainLayouts";
 
 function App() {
- 
-
   return (
     <div className="container mx-auto border-2 border-green-300 my-4 ">
-      <h1 className="text-center">Practice mui</h1>
-      <Form />
+      <MainLayouts />
     </div>
   );
 }
