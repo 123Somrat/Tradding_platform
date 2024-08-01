@@ -92,7 +92,12 @@ export default function NavBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <NavLink to={`/${page}`}>
+                  <NavLink
+                    to={`/${page}`}
+                    className={({ isActive, isPending }) =>
+                      isPending ? "pending" : isActive ? "active" : ""
+                    }
+                  >
                     <Typography textAlign="center">{page}</Typography>
                   </NavLink>
                 </MenuItem>
@@ -119,12 +124,27 @@ export default function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <NavLink to={`/${page}`} key={page}>
+              <NavLink
+                to={`/${page}`}
+                key={page}
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "active" : ""
+                }
+              >
                 <Button
                   key={page}
+                  size="large"
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, mx: 4, color: "green", display: "block" }}
-                  className=" hover:text-green-900 hover::border-b border-green-950"
+                  sx={{
+                    my: 0,
+                    mx: 4,
+                    color: "green",
+                    display: "block",
+                    "&:hover": {
+                      backgroundColor: "#DCFCE7",
+                    },
+                  }}
+                  className=" hover:text-green-900 "
                 >
                   {page}
                 </Button>
