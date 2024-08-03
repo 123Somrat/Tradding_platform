@@ -15,7 +15,7 @@ const addProductSchema= z.object({
     .email({ message: "Invalid email address" }),
   password: z
     .string({ required_error: "Password is required" })
-    .min(8, { message: "Must be 8 or more characters long" })
+    .min(8, { message: "Your password needs to be at least 8 characters" })
     .max(15, { message: "Must be 15 or fewer characters long" }),
 });
 

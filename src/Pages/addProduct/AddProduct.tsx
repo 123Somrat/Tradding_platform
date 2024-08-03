@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
+import { useEffect, useRef } from "react";
 
 // Input value type
 type IFormInput = {
@@ -20,6 +21,7 @@ export default function AddProduct() {
     control,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors },
   } = useForm<IFormInput>({
     defaultValues: {
@@ -30,12 +32,30 @@ export default function AddProduct() {
     },
     resolver: zodResolver(addProductSchema),
   });
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  // Focusing the error field where error is occued
+  useEffect(() => {
+    if (errors.firstName) {
+      firstNameRef.current?.focus();
+    } else if (errors.lastName) {
+      lastNameRef.current?.focus();
+    } else if (errors.email) {
+      emailRef.current?.focus();
+    } else if (errors.password) {
+      passwordRef.current?.focus();
+    }
+  }, [errors]);
 
   // submit handler
   const submit: SubmitHandler<IFormInput> = (data) => {
-    console.log(errors);
     console.log(data);
+
     reset();
+    setFocus("email");
   };
 
   return (
@@ -78,8 +98,9 @@ export default function AddProduct() {
                   <Input
                     id="firstName"
                     aria-describedby="firstName"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8"
+                    className="min-w-64 md:w-52 xl:w-96 mb-8 "
                     {...field}
+                    inputRef={firstNameRef}
                   />
                 )}
               />
@@ -111,8 +132,9 @@ export default function AddProduct() {
                   <Input
                     id="lastName"
                     aria-describedby="my-helper-text"
-                    {...field}
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
+                    {...field}
+                    inputRef={lastNameRef}
                   />
                 )}
               />
@@ -143,8 +165,9 @@ export default function AddProduct() {
                   <Input
                     id="email"
                     aria-describedby="my-helper-text"
-                    {...field}
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
+                    {...field}
+                    inputRef={emailRef}
                   />
                 )}
               />
@@ -175,8 +198,9 @@ export default function AddProduct() {
                   <Input
                     id="password"
                     aria-describedby="my-helper-text"
-                    {...field}
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
+                    {...field}
+                    inputRef={passwordRef}
                   />
                 )}
               />
