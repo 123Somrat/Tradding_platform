@@ -22,7 +22,7 @@ export default function AddProduct() {
     handleSubmit,
     reset,
     setFocus,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<IFormInput>({
     defaultValues: {
       firstName: "",
@@ -58,6 +58,7 @@ export default function AddProduct() {
     setFocus("email");
   };
 
+  console.log(isValid);
   return (
     <Box
       sx={{
@@ -217,6 +218,7 @@ export default function AddProduct() {
           </Grid>
 
           <Button
+            disabled={!isValid}
             type="submit"
             fullWidth
             style={{ marginLeft: "5px" }}
