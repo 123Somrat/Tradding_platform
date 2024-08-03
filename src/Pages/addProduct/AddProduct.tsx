@@ -1,5 +1,3 @@
-
-
 import { FormControl, Grid, Typography } from "@mui/material";
 import { Input } from "@mui/material";
 import { InputLabel } from "@mui/material";
@@ -8,7 +6,6 @@ import { Button } from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
-
 
 // Input value type
 type IFormInput = {
@@ -19,19 +16,26 @@ type IFormInput = {
 };
 
 export default function AddProduct() {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IFormInput>({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
     },
-    resolver:zodResolver(addProductSchema)
+    resolver: zodResolver(addProductSchema),
   });
 
   // submit handler
   const submit: SubmitHandler<IFormInput> = (data) => {
+    console.log(errors);
     console.log(data);
+    reset();
   };
 
   return (
@@ -59,8 +63,12 @@ export default function AddProduct() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <FormControl color="success">
-              <InputLabel htmlFor="firstName" color="success">
+            <FormControl color="success" error={!!errors.firstName}>
+              <InputLabel
+                htmlFor="firstName"
+                color="success"
+                error={!!errors.firstName}
+              >
                 FirstName
               </InputLabel>
               <Controller
@@ -76,11 +84,24 @@ export default function AddProduct() {
                 )}
               />
             </FormControl>
+            <p>
+              {errors.firstName ? (
+                <span className="text-red-500 text-xs md:text-sm">
+                  {errors.firstName.message}
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <FormControl color="success">
-              <InputLabel htmlFor="lastName" color="success">
+            <FormControl color="success" error={!!errors.lastName}>
+              <InputLabel
+                htmlFor="lastName"
+                color="success"
+                error={!!errors.lastName}
+              >
                 LastName
               </InputLabel>
               <Controller
@@ -96,10 +117,23 @@ export default function AddProduct() {
                 )}
               />
             </FormControl>
+            <p>
+              {errors.lastName ? (
+                <span className="text-red-500 text-xs md:text-sm">
+                  {errors.lastName.message}
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
           </Grid>
           <Grid item xs={12} md={6}>
-            <FormControl color="success">
-              <InputLabel htmlFor="email" color="success">
+            <FormControl color="success" error={!!errors.email}>
+              <InputLabel
+                htmlFor="email"
+                color="success"
+                error={!!errors.email}
+              >
                 Email
               </InputLabel>
               <Controller
@@ -115,11 +149,24 @@ export default function AddProduct() {
                 )}
               />
             </FormControl>
+            <p>
+              {errors.email ? (
+                <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
+                  {errors.email.message}
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
           </Grid>
           <Grid item xs={12} md={6}>
-            <FormControl color="success">
-              <InputLabel htmlFor="password" color="success">
-               Password
+            <FormControl color="success" error={!!errors.password}>
+              <InputLabel
+                htmlFor="password"
+                color="success"
+                error={!!errors.password}
+              >
+                Password
               </InputLabel>
               <Controller
                 name="password"
@@ -134,6 +181,15 @@ export default function AddProduct() {
                 )}
               />
             </FormControl>
+            <p>
+              {errors.password ? (
+                <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
+                  {errors.password.message}
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
           </Grid>
 
           <Button
@@ -151,4 +207,3 @@ export default function AddProduct() {
     </Box>
   );
 }
-

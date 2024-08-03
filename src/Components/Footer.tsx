@@ -1,4 +1,4 @@
-import Products from "./Products";
+
 
 
 
@@ -6,7 +6,7 @@ import Products from "./Products";
 export default function Footer() {
   return (
     <div>
-        <Products />
+      <h1>Footer</h1>
     </div>
   )
 }
