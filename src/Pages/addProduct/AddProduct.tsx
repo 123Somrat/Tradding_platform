@@ -6,6 +6,9 @@ import { InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
+
 
 // Input value type
 type IFormInput = {
@@ -23,6 +26,7 @@ export default function AddProduct() {
       email: "",
       password: "",
     },
+    resolver:zodResolver(addProductSchema)
   });
 
   // submit handler
