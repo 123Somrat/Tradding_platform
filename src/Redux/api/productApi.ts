@@ -1,3 +1,5 @@
+
+import { BaseQueryApi } from "@reduxjs/toolkit/query/react";
 import baseApi from "./baseApi";
 
 type product = {
@@ -7,6 +9,12 @@ type product = {
   body: string;
 };
 const Product_Api = "/posts";
+
+type BaseQueryFunction<Args=[],Result=[],Error=[],DefinitionExtraOptions = {},
+Meta = {},> = (args:Args,api:BaseQueryApi,extraOptions:DefinitionExtraOptions)=>MaybePromise<QueryReturnValue<Result, Error, Meta>>
+
+
+
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -22,19 +30,21 @@ const productApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    addProducts: build.query<product, string>({
-      query: () => ({
+    addProducts: build.mutation<product, string>({
+      query: (data) => ({
         url: Product_Api,
         method: "POST",
+        body:data
       }),
     }),
-    updateProduct: build.query<product, string>({
+    updateProduct: build.mutation<product, string>({
       query: (id) => ({
         url: `${Product_Api}/${id}`,
         method: "POST",
+       // body:data
       }),
     }),
-    deleteProduct: build.query<product, string>({
+    deleteProduct: build.mutation<product, string>({
       query: (id) => ({
         url: `${Product_Api}/${id}`,
         method: "DELETE",
