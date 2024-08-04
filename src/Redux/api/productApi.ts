@@ -1,5 +1,4 @@
 
-import { BaseQueryApi } from "@reduxjs/toolkit/query/react";
 import baseApi from "./baseApi";
 
 type product = {
@@ -9,9 +8,6 @@ type product = {
   body: string;
 };
 const Product_Api = "/posts";
-
-type BaseQueryFunction<Args=[],Result=[],Error=[],DefinitionExtraOptions = {},
-Meta = {},> = (args:Args,api:BaseQueryApi,extraOptions:DefinitionExtraOptions)=>MaybePromise<QueryReturnValue<Result, Error, Meta>>
 
 
 
