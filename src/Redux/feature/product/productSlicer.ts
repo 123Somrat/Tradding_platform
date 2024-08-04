@@ -19,7 +19,25 @@ const initialState:initialState = {
 const productSlicer = createSlice({
    name:'product',
    initialState,
-   reducers:{}
+   reducers:{
+      getProducts:()=>{
+          console.log('getting product')
+      },
+
+      addProduct : (state,action)=>{
+        console.log(state,action)
+      },
+      getSingleProduct:()=>{
+
+      },
+      updateSingleProduct:()=>{
+
+      },
+      deleteSingleProduct:()=>{
+
+
+      }
+   }
 
 
 

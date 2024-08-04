@@ -37,7 +37,7 @@ export default function AddProduct() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  // Focusing the error field where error is occued
+  // Focusing the error field where error is occured
   useEffect(() => {
     if (errors.firstName) {
       firstNameRef.current?.focus();
