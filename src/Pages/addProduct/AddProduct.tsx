@@ -10,8 +10,8 @@ import { useEffect, useRef } from "react";
 
 // Input value type
 type IFormInput = {
-  firstName: string;
-  lastName: string;
+  buyerName: string;
+  fromBoughtSellerName: string;
   email: string;
   password: string;
 };
@@ -25,24 +25,24 @@ export default function AddProduct() {
     formState: { errors, isValid },
   } = useForm<IFormInput>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      buyerName: "",
+      fromBoughtSellerName: "",
       email: "",
       password: "",
     },
     resolver: zodResolver(addProductSchema),
   });
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
+  const buyerNameRef = useRef<HTMLInputElement>(null);
+  const fromBoughtSellerNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   // Focusing the error field where error is occured
   useEffect(() => {
-    if (errors.firstName) {
-      firstNameRef.current?.focus();
-    } else if (errors.lastName) {
-      lastNameRef.current?.focus();
+    if (errors.buyerName) {
+      buyerNameRef.current?.focus();
+    } else if (errors.fromBoughtSellerName) {
+      fromBoughtSellerNameRef.current?.focus();
     } else if (errors.email) {
       emailRef.current?.focus();
     } else if (errors.password) {
@@ -84,32 +84,32 @@ export default function AddProduct() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.firstName}>
+            <FormControl color="success" error={!!errors.buyerName}>
               <InputLabel
-                htmlFor="firstName"
+                htmlFor="buyerName"
                 color="success"
-                error={!!errors.firstName}
+                error={!!errors.buyerName}
               >
-                FirstName
+                BuyerName
               </InputLabel>
               <Controller
-                name="firstName"
+                name="buyerName"
                 control={control}
                 render={({ field }) => (
                   <Input
                     id="firstName"
-                    aria-describedby="firstName"
+                    aria-describedby="buyerName"
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
                     {...field}
-                    inputRef={firstNameRef}
+                    inputRef={buyerNameRef}
                   />
                 )}
               />
             </FormControl>
             <p>
-              {errors.firstName ? (
+              {errors.buyerName ? (
                 <span className="text-red-500 text-xs md:text-sm">
-                  {errors.firstName.message}
+                  {errors.buyerName.message}
                 </span>
               ) : (
                 ""
@@ -118,32 +118,32 @@ export default function AddProduct() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.lastName}>
+            <FormControl color="success" error={!!errors.fromBoughtSellerName}>
               <InputLabel
-                htmlFor="lastName"
+                htmlFor="fromBoughtSellerName"
                 color="success"
-                error={!!errors.lastName}
+                error={!!errors.fromBoughtSellerName}
               >
-                LastName
+                SellerNameRef
               </InputLabel>
               <Controller
-                name="lastName"
+                name="fromBoughtSellerName"
                 control={control}
                 render={({ field }) => (
                   <Input
-                    id="lastName"
+                    id="fromBoughtSellerName"
                     aria-describedby="my-helper-text"
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
                     {...field}
-                    inputRef={lastNameRef}
+                    inputRef={fromBoughtSellerNameRef}
                   />
                 )}
               />
             </FormControl>
             <p>
-              {errors.lastName ? (
+              {errors.fromBoughtSellerName ? (
                 <span className="text-red-500 text-xs md:text-sm">
-                  {errors.lastName.message}
+                  {errors.fromBoughtSellerName.message}
                 </span>
               ) : (
                 ""

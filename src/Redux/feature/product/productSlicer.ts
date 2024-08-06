@@ -23,9 +23,11 @@ const productSlicer = createSlice({
       getProducts:()=>{
           console.log('getting product')
       },
-
+       setProduct:(state,action)=>{
+        state.products=action.payload
+       },
       addProduct : (state,action)=>{
-        console.log(state,action)
+         console.log(state,action)
       },
       getSingleProduct:()=>{
 
