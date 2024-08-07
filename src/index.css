@@ -7,3 +7,6 @@
 a.active{
    border-bottom: 1px solid green;
 }
+.customWidth{
+    width: 200px;
+}

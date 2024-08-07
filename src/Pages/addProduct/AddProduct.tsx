@@ -1,19 +1,24 @@
-import { FormControl, Grid, Typography } from "@mui/material";
-import { Input } from "@mui/material";
-import { InputLabel } from "@mui/material";
+import {
+  FormControl,
+  Grid,
+  Typography,
+  Input,
+  InputLabel,
+  Button,
+} from "@mui/material";
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
 import { useEffect, useRef } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 // Input value type
 type IFormInput = {
   buyerName: string;
-  fromBoughtSellerName: string;
-  email: string;
-  password: string;
+  sellerName: string;
+  buyingDate: Date | "";
+  expiredDate: Date | "";
 };
 
 export default function AddProduct() {
@@ -21,44 +26,41 @@ export default function AddProduct() {
     control,
     handleSubmit,
     reset,
-    setFocus,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<IFormInput>({
     defaultValues: {
       buyerName: "",
-      fromBoughtSellerName: "",
-      email: "",
-      password: "",
+      sellerName: "",
+      buyingDate: "",
+      expiredDate: "",
     },
     resolver: zodResolver(addProductSchema),
   });
   const buyerNameRef = useRef<HTMLInputElement>(null);
-  const fromBoughtSellerNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const sellerNameRef = useRef<HTMLInputElement>(null);
+  const buyingDateRef = useRef<HTMLInputElement>(null);
+  const expiredDateRef = useRef<HTMLInputElement>(null);
 
   // Focusing the error field where error is occured
   useEffect(() => {
     if (errors.buyerName) {
       buyerNameRef.current?.focus();
-    } else if (errors.fromBoughtSellerName) {
-      fromBoughtSellerNameRef.current?.focus();
-    } else if (errors.email) {
-      emailRef.current?.focus();
-    } else if (errors.password) {
-      passwordRef.current?.focus();
+    } else if (errors.sellerName) {
+      sellerNameRef.current?.focus();
+    } else if (errors.buyingDate) {
+      buyingDateRef.current?.focus();
+    } else if (errors.expiredDate) {
+      expiredDateRef.current?.focus();
     }
   }, [errors]);
 
   // submit handler
   const submit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
-
+    console.log(typeof data.buyingDate);
     reset();
-    setFocus("email");
   };
-
-  console.log(isValid);
+  console.log(errors);
   return (
     <Box
       sx={{
@@ -66,7 +68,7 @@ export default function AddProduct() {
         my: 4,
         p: 4,
         border: 2,
-        borderColor: "green.300",
+        borderColor: "green",
         width: { xs: "90%", md: "60%" },
       }}
     >
@@ -76,7 +78,15 @@ export default function AddProduct() {
       <Box
         component="form"
         sx={{
-          "& .MuiTextField-root": { m: 2, width: "45ch" },
+          "& .MuiTextField-root": {
+            mb: 2,
+            width: "auto",
+            borderBottom: "1px solid grey",
+          },
+          "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+            border: "none",
+            margin: "0px",
+          },
         }}
         noValidate
         autoComplete="off"
@@ -118,32 +128,32 @@ export default function AddProduct() {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.fromBoughtSellerName}>
+            <FormControl color="success" error={!!errors.sellerName}>
               <InputLabel
-                htmlFor="fromBoughtSellerName"
+                htmlFor="SellerName"
                 color="success"
-                error={!!errors.fromBoughtSellerName}
+                error={!!errors.sellerName}
               >
-                SellerNameRef
+                SellerName
               </InputLabel>
               <Controller
-                name="fromBoughtSellerName"
+                name="sellerName"
                 control={control}
                 render={({ field }) => (
                   <Input
-                    id="fromBoughtSellerName"
+                    id="sellerName"
                     aria-describedby="my-helper-text"
                     className="min-w-64 md:w-52 xl:w-96 mb-8 "
                     {...field}
-                    inputRef={fromBoughtSellerNameRef}
+                    inputRef={sellerNameRef}
                   />
                 )}
               />
             </FormControl>
             <p>
-              {errors.fromBoughtSellerName ? (
+              {errors.sellerName ? (
                 <span className="text-red-500 text-xs md:text-sm">
-                  {errors.fromBoughtSellerName.message}
+                  {errors.sellerName.message}
                 </span>
               ) : (
                 ""
@@ -151,32 +161,42 @@ export default function AddProduct() {
             </p>
           </Grid>
           <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.email}>
+            <FormControl color="success" error={!!errors.buyingDate} fullWidth>
               <InputLabel
-                htmlFor="email"
+                htmlFor="buyingDate"
                 color="success"
-                error={!!errors.email}
-              >
-                Email
-              </InputLabel>
+                error={!!errors.buyingDate}
+              ></InputLabel>
               <Controller
-                name="email"
+                name="buyingDate"
                 control={control}
                 render={({ field }) => (
-                  <Input
-                    id="email"
-                    aria-describedby="my-helper-text"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 "
-                    {...field}
-                    inputRef={emailRef}
+                  <DatePicker
+                    label="Buying Date"
+                    disablePast
+                    formatDensity="spacious"
+                    disableHighlightToday
+                    displayWeekNumber
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                    inputRef={buyingDateRef}
+                    slotProps={{
+                      openPickerIcon: { fontSize: "medium" },
+                      openPickerButton: { color: "success" },
+                      textField: {
+                        focused: false,
+                        color: "success",
+                      },
+                    }}
                   />
                 )}
               />
             </FormControl>
             <p>
-              {errors.email ? (
+              {errors.buyingDate ? (
                 <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
-                  {errors.email.message}
+                  {errors.buyingDate.message}
                 </span>
               ) : (
                 ""
@@ -184,41 +204,50 @@ export default function AddProduct() {
             </p>
           </Grid>
           <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.password}>
+            <FormControl color="success" error={!!errors.expiredDate} fullWidth>
               <InputLabel
-                htmlFor="password"
+                htmlFor="expeiredDate"
                 color="success"
-                error={!!errors.password}
-              >
-                Password
-              </InputLabel>
+                error={!!errors.expiredDate}
+              ></InputLabel>
               <Controller
-                name="password"
+                name="expiredDate"
                 control={control}
                 render={({ field }) => (
-                  <Input
-                    id="password"
-                    aria-describedby="my-helper-text"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 "
-                    {...field}
-                    inputRef={passwordRef}
+                  <DatePicker
+                    label="Expeired Date"
+                    disablePast
+                    formatDensity="spacious"
+                    disableHighlightToday
+                    displayWeekNumber
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                    inputRef={expiredDateRef}
+                    slotProps={{
+                      openPickerIcon: { fontSize: "medium" },
+                      openPickerButton: { color: "success" },
+                      textField: {
+                        focused: false,
+                        color: "success",
+                      },
+                    }}
                   />
                 )}
               />
             </FormControl>
             <p>
-              {errors.password ? (
+              {errors.expiredDate ? (
                 <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
-                  {errors.password.message}
+                  {errors.expiredDate.message}
                 </span>
               ) : (
                 ""
               )}
             </p>
           </Grid>
-
           <Button
-            disabled={!isValid}
+            //disabled={!isValid}
             type="submit"
             fullWidth
             style={{ marginLeft: "5px" }}
