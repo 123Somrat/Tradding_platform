@@ -4,17 +4,28 @@ const addProductSchema = z
   .object({
     buyerName: z
       .string({
-        required_error: "FirstName is required",
-        invalid_type_error: "FirstName must be a string",
+        required_error: "BuyerName is required",
+        invalid_type_error: "BuyerName must be a string",
       })
-      .min(5, "Firstname Must be 5 or more characters long"),
+      .min(5, "BuyerName Must be 5 or more characters long"),
     sellerName: z
       .string({
-        required_error: "LastName is required",
-        invalid_type_error: "LastName must be a string",
+        required_error: "SellerName is required",
+        invalid_type_error: "SellerName must be a string",
       })
-      .min(5, "LastName Must be 5 or more characters long"),
-    buyingDate: z.string().date("Buying Date is required"),
+      .min(5, "SellerName Must be 5 or more characters long"),
+    buyingPrice: z.coerce
+      .number({
+        required_error: "Buying price is required",
+        invalid_type_error: "Buying price must be a number",
+      }).positive()
+      .nonnegative("Buying price can not negative"),
+    buyingDate: z
+      .string({
+        required_error: "Expired date is required",
+        invalid_type_error: "Expired date must be a date",
+      })
+      .date("Buying Date is required"),
     expiredDate: z
       .string({
         required_error: "Expired date is required",

@@ -144,7 +144,7 @@ export default function NavBar() {
                       backgroundColor: "#DCFCE7",
                     },
                   }}
-                  className=" hover:text-green-900 "
+                  className=" hover:text-green-900"
                 >
                   {page}
                 </Button>

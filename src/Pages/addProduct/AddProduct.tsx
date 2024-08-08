@@ -12,13 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
 import { useEffect, useRef } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 // Input value type
 type IFormInput = {
-  buyerName: string;
-  sellerName: string;
-  buyingDate: Date | "";
-  expiredDate: Date | "";
+  buyerName: string | "";
+  sellerName: string | "";
+  buyingPrice: number | "";
+  buyingDate: dayjs.Dayjs | "";
+  expiredDate: dayjs.Dayjs | "";
 };
 
 export default function AddProduct() {
@@ -26,11 +28,12 @@ export default function AddProduct() {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<IFormInput>({
     defaultValues: {
       buyerName: "",
       sellerName: "",
+      buyingPrice: "",
       buyingDate: "",
       expiredDate: "",
     },
@@ -38,6 +41,7 @@ export default function AddProduct() {
   });
   const buyerNameRef = useRef<HTMLInputElement>(null);
   const sellerNameRef = useRef<HTMLInputElement>(null);
+  const buyingPriceRef = useRef<HTMLInputElement>(null);
   const buyingDateRef = useRef<HTMLInputElement>(null);
   const expiredDateRef = useRef<HTMLInputElement>(null);
 
@@ -47,6 +51,8 @@ export default function AddProduct() {
       buyerNameRef.current?.focus();
     } else if (errors.sellerName) {
       sellerNameRef.current?.focus();
+    } else if (errors.buyingPrice) {
+      buyingPriceRef.current?.focus();
     } else if (errors.buyingDate) {
       buyingDateRef.current?.focus();
     } else if (errors.expiredDate) {
@@ -57,16 +63,16 @@ export default function AddProduct() {
   // submit handler
   const submit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
-    console.log(typeof data.buyingDate);
+
     reset();
   };
-  console.log(errors);
+
   return (
     <Box
       sx={{
         mx: "auto",
         my: 4,
-        p: 4,
+        p: 2,
         border: 2,
         borderColor: "green",
         width: { xs: "90%", md: "60%" },
@@ -82,19 +88,25 @@ export default function AddProduct() {
             mb: 2,
             width: "auto",
             borderBottom: "1px solid grey",
+            "&:focus-within": {
+              borderBottomColor: "green", // Change border color on focus
+            },
           },
           "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
             border: "none",
             margin: "0px",
           },
+          "& .css-1x51dt5-MuiInputBase-input-MuiInput-input":{
+            marginBottom:'9px'
+          }
         }}
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit(submit)}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.buyerName}>
+          <Grid item xs={12} sm={6} md={6}>
+            <FormControl color="success" error={!!errors.buyerName} fullWidth>
               <InputLabel
                 htmlFor="buyerName"
                 color="success"
@@ -109,7 +121,8 @@ export default function AddProduct() {
                   <Input
                     id="firstName"
                     aria-describedby="buyerName"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 "
+                    fullWidth
+                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
                     {...field}
                     inputRef={buyerNameRef}
                   />
@@ -127,8 +140,8 @@ export default function AddProduct() {
             </p>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <FormControl color="success" error={!!errors.sellerName}>
+          <Grid item xs={12} sm={6} md={6}>
+            <FormControl color="success" error={!!errors.sellerName} fullWidth>
               <InputLabel
                 htmlFor="SellerName"
                 color="success"
@@ -143,8 +156,9 @@ export default function AddProduct() {
                   <Input
                     id="sellerName"
                     aria-describedby="my-helper-text"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 "
+                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
                     {...field}
+                    fullWidth
                     inputRef={sellerNameRef}
                   />
                 )}
@@ -160,7 +174,41 @@ export default function AddProduct() {
               )}
             </p>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6} md={6}>
+            <FormControl color="success" error={!!errors.buyingPrice} fullWidth>
+              <InputLabel
+                htmlFor="Buying Price"
+                color="success"
+                error={!!errors.buyingPrice}
+              >
+                Bying Price
+              </InputLabel>
+              <Controller
+                name="buyingPrice"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                  id="buyingPrice"
+                  fullWidth
+                  aria-describedby="my-helper-text"
+                  className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
+                  {...field}
+                  inputRef={buyingPriceRef}
+                />
+                )}
+              />
+              <p>
+                {errors.buyingPrice ? (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    {errors.buyingPrice.message}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </p>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
             <FormControl color="success" error={!!errors.buyingDate} fullWidth>
               <InputLabel
                 htmlFor="buyingDate"
@@ -172,21 +220,26 @@ export default function AddProduct() {
                 control={control}
                 render={({ field }) => (
                   <DatePicker
-                    label="Buying Date"
+                    label='Buying Date'
                     disablePast
+                    orientation='portrait'
                     formatDensity="spacious"
                     disableHighlightToday
                     displayWeekNumber
+                    value={dayjs(field.value)}
                     onChange={(date) =>
                       field.onChange(date?.format("YYYY-MM-DD"))
                     }
+                    className="mb-2"
                     inputRef={buyingDateRef}
                     slotProps={{
                       openPickerIcon: { fontSize: "medium" },
                       openPickerButton: { color: "success" },
+                       
                       textField: {
-                        focused: false,
+                        focused: true,
                         color: "success",
+                       
                       },
                     }}
                   />
@@ -203,7 +256,7 @@ export default function AddProduct() {
               )}
             </p>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6} md={6}>
             <FormControl color="success" error={!!errors.expiredDate} fullWidth>
               <InputLabel
                 htmlFor="expeiredDate"
@@ -216,6 +269,7 @@ export default function AddProduct() {
                 render={({ field }) => (
                   <DatePicker
                     label="Expeired Date"
+                    value={dayjs(field.value)}
                     disablePast
                     formatDensity="spacious"
                     disableHighlightToday
@@ -228,7 +282,7 @@ export default function AddProduct() {
                       openPickerIcon: { fontSize: "medium" },
                       openPickerButton: { color: "success" },
                       textField: {
-                        focused: false,
+                        focused: true,
                         color: "success",
                       },
                     }}
@@ -247,15 +301,15 @@ export default function AddProduct() {
             </p>
           </Grid>
           <Button
-            //disabled={!isValid}
+            disabled={!isValid}
             type="submit"
             fullWidth
-            style={{ marginLeft: "5px" }}
+            style={{ marginLeft: "16px" }}
             variant="contained"
             color="success"
-            className="hover:bg-green-900"
+            className="hover:bg-green-900 ml-2"
           >
-            Add Product
+            {isSubmitting ? "Adding product...." : "Add Product"}
           </Button>
         </Grid>
       </Box>
