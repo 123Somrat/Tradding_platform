@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayouts from "../Layouts/MainLayouts/MainLayouts";
 import AddProduct from "../Pages/addProduct/AddProduct";
+import DashboardLayouts from "../Layouts/DashboardLayouts/DashboardLayouts";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path:'dashboard',
-    element:<h1>Welcome mohammad</h1>
+    element:<DashboardLayouts />
  }
 
 ]);
