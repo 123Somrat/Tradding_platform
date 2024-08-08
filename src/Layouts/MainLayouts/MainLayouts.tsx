@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayouts() {
   return (
-    <div>
+    <div className="container mx-auto">
       <NavBar />
       <Outlet />
       <Footer />
