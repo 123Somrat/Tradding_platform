@@ -6,16 +6,19 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    children:[{
-      path:'Add_Product',
-      element:<AddProduct />
-
-    }
-     
-
-
-    ]
+    children: [
+      {
+        path: "Add_Product",
+        element: <AddProduct />,
+      },
+    ],
+    
   },
+  {
+    path:'dashboard',
+    element:<h1>Welcome mohammad</h1>
+ }
+
 ]);
 
 export default router;
