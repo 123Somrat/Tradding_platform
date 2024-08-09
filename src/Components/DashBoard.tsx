@@ -6,7 +6,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
+
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -89,7 +89,9 @@ export default function DashBoard() {
   };
   return (
     <Box className="container mx-auto max-w-6xl p-2"  >
-      <Box  sx={{ display: "flex" }}>
+      <Box  sx={{ display: "flex" ,   "& .css-h6yqnv":{
+          padding:'0px'
+        }}}>
         <CssBaseline />
         <AppBar position="fixed" open={open} color="inherit" >
           <Toolbar>
@@ -106,22 +108,6 @@ export default function DashBoard() {
         </AppBar>
         <Main >
           <DrawerHeader />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-            dolor purus non enim praesent elementum facilisis leo vel. Risus at
-            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida
-            rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean
-            sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-            vivamus at augue. At augue eget arcu dictum varius duis at
-            consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-            donec massa sapien faucibus et molestie ac.
-          </Typography>
-       
         </Main>
         <Drawer
           sx={{
@@ -146,8 +132,8 @@ export default function DashBoard() {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Home", "All Due", "Add due", "Sell record"].map((text, index) => (
-              <NavLink to={`/${text}`}><ListItem key={text} disablePadding>
+            {["Home","add_due" ,"All Due", "Sell record"].map((text, index) => (
+              <NavLink to={`/dashboard/${text}`}><ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -159,18 +145,7 @@ export default function DashBoard() {
             ))}
           </List>
           <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+        
         </Drawer>
       </Box>
     </Box>

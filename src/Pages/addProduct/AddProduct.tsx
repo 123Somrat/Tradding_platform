@@ -71,11 +71,11 @@ export default function AddProduct() {
     <Box
       sx={{
         mx: "auto",
-        my: 4,
         p: 2,
         border: 2,
         borderColor: "green",
         width: { xs: "90%", md: "60%" },
+        
       }}
     >
       <Typography className="text-center text-green-800" mb={3}>
@@ -98,7 +98,8 @@ export default function AddProduct() {
           },
           "& .css-1x51dt5-MuiInputBase-input-MuiInput-input":{
             marginBottom:'9px'
-          }
+          },
+        
         }}
         noValidate
         autoComplete="off"
