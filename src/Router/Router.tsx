@@ -14,8 +14,12 @@ const router = createBrowserRouter([
     element: <DashboardLayouts />,
     children: [
       {
-        path: "add_due",
+        path: "Add_due",
         element: <AddProduct />,
+      },
+      {
+        path: "All_due",
+        element: <h1 className="text-center">All due page</h1>,
       },
     ],
   },

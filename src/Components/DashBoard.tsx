@@ -132,7 +132,7 @@ export default function DashBoard() {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Home","add_due" ,"All Due", "Sell record"].map((text, index) => (
+            {["Home","Add_due" ,"All_Due", "Sell_record"].map((text, index) => (
               <NavLink to={`/dashboard/${text}`}><ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
