@@ -8,11 +8,21 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
+    children:[
+      {
+        path:'/',
+        element:<h1>This is home page</h1>
+    }
+  ]
   },
   {
     path: "dashboard",
     element: <DashboardLayouts />,
     children: [
+      {
+         index:true,
+         element:<h1>This is dashboard page</h1>
+      },
       {
         path: "Add_due",
         element: <AddProduct />,
