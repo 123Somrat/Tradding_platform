@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
-
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -39,12 +38,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     }),
     marginRight: 0,
   }),
-  /**
-   * This is necessary to enable the selection of content. In the DOM, the stacking order is determined
-   * by the order of appearance. Following this rule, elements appearing later in the markup will overlay
-   * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures
-   * proper interaction with the underlying content.
-   */
   position: "relative",
 }));
 
@@ -69,8 +62,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -88,14 +81,12 @@ export default function DashBoard() {
     setOpen(false);
   };
   return (
-    <Box className="container mx-auto max-w-6xl p-2"  >
-      <Box  sx={{ display: "flex" ,   "& .css-h6yqnv":{
-          padding:'0px'
-        }}}>
-        <CssBaseline />
-        <AppBar position="fixed" open={open} color="inherit" >
-          <Toolbar>
-            <IconButton
+    <Box>
+      <Box >
+      <CssBaseline />
+      <AppBar position="fixed" open={open} color="inherit" sx={{width:'full'}}>
+        <Toolbar>
+          <IconButton
               color="success"
               aria-label="open drawer"
               edge="start"
@@ -106,8 +97,8 @@ export default function DashBoard() {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Main >
-          <DrawerHeader />
+        <Main>
+        <DrawerHeader />
         </Main>
         <Drawer
           sx={{
@@ -115,6 +106,7 @@ export default function DashBoard() {
             flexShrink: 0,
             "& .MuiDrawer-paper": {
               width: drawerWidth,
+             
             },
           }}
           variant="persistent"
@@ -123,29 +115,31 @@ export default function DashBoard() {
         >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
+              {theme.direction === "ltr" ? (
                 <ChevronLeftIcon />
               ) : (
                 <ChevronRightIcon />
               )}
             </IconButton>
           </DrawerHeader>
-          <Divider />
+         
           <List>
-            {["Home","Add_due" ,"All_Due", "Sell_record"].map((text, index) => (
-              <NavLink to={`/dashboard/${text}`}><ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-              </NavLink>
-            ))}
+            {["Home", "Add_due", "All_Due", "Sell_record"].map(
+              (text, index) => (
+                <NavLink to={`/dashboard/${text}`}>
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                </NavLink>
+              )
+            )}
           </List>
           <Divider />
-        
         </Drawer>
       </Box>
     </Box>

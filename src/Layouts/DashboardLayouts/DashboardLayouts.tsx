@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 export default function DashboardLayouts() {
   return (
     <Box className="container mx-auto max-w-full bg-gray-100 p-2">
-       <Box sx={{width: { xs: "90%", md: "70%" }}} className='mx-auto '>
+       <Box sx={{width: { xs: "100%", md: "70%" , '& .css-h6yqnv':{marginRight:0} }}} className='mx-auto' >
         <DashBoard />
         <Outlet />
         </Box>

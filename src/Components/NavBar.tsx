@@ -11,12 +11,15 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 const pages = ["Home", "About", "Contact", "dashboard"];
 const settings = ["Profile", "Account", "dashboard", "Logout"];
 
 export default function NavBar() {
+
+  
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -40,7 +43,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" color="inherit">
+    <AppBar position="static" color="inherit" sx={{boxShadow:'none'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <NavLink to="/">
@@ -144,7 +147,6 @@ export default function NavBar() {
                       backgroundColor: "#DCFCE7",
                     },
                   }}
-                  className=" hover:text-green-900"
                 >
                   {page}
                 </Button>
