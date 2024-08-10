@@ -3,6 +3,7 @@ import MainLayouts from "../Layouts/MainLayouts/MainLayouts";
 
 import DashboardLayouts from "../Layouts/DashboardLayouts/DashboardLayouts";
 import AddProduct from "../Pages/addProduct/AddProduct";
+import AllDue from "../Pages/AllDue/AllDue";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: "All_due",
-        element: <h1 className="text-center">All due page</h1>,
+        element: <AllDue/>,
       },
     ],
   },

@@ -70,12 +70,9 @@ export default function AddProduct() {
   return (
     <Box
       sx={{
-        mx: "auto",
         p: 2,
         border: 2,
         borderColor: "green",
-        width: { xs: "90%", md: "60%" },
-        
       }}
     >
       <Typography className="text-center text-green-800" mb={3}>
@@ -96,10 +93,9 @@ export default function AddProduct() {
             border: "none",
             margin: "0px",
           },
-          "& .css-1x51dt5-MuiInputBase-input-MuiInput-input":{
-            marginBottom:'9px'
+          "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+            marginBottom: "9px",
           },
-        
         }}
         noValidate
         autoComplete="off"
@@ -189,13 +185,13 @@ export default function AddProduct() {
                 control={control}
                 render={({ field }) => (
                   <Input
-                  id="buyingPrice"
-                  fullWidth
-                  aria-describedby="my-helper-text"
-                  className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
-                  {...field}
-                  inputRef={buyingPriceRef}
-                />
+                    id="buyingPrice"
+                    fullWidth
+                    aria-describedby="my-helper-text"
+                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
+                    {...field}
+                    inputRef={buyingPriceRef}
+                  />
                 )}
               />
               <p>
@@ -221,9 +217,9 @@ export default function AddProduct() {
                 control={control}
                 render={({ field }) => (
                   <DatePicker
-                    label='Buying Date'
+                    label="Buying Date"
                     disablePast
-                    orientation='portrait'
+                    orientation="portrait"
                     formatDensity="spacious"
                     disableHighlightToday
                     displayWeekNumber
@@ -236,11 +232,10 @@ export default function AddProduct() {
                     slotProps={{
                       openPickerIcon: { fontSize: "medium" },
                       openPickerButton: { color: "success" },
-                       
+
                       textField: {
                         focused: true,
                         color: "success",
-                       
                       },
                     }}
                   />
