@@ -1,19 +1,17 @@
 import {  BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
-import productSlicer from "../feature/product/productSlicer";
+
 
 const baseQuery = fetchBaseQuery({
-   baseUrl:'https://jsonplaceholder.typicode.com',
+   baseUrl:'http://localhost:3000/api/v1',
    credentials:'include',
-   prepareHeaders:()=>{}
+   prepareHeaders:()=>{ }
 })
 
 const customBaseQuery:BaseQueryFn<string | FetchArgs,
 unknown,
 FetchBaseQueryError> = async (args,api,extraOptions)=>{
      const data = await baseQuery(args,api,extraOptions);
-      if(data){
-         productSlicer.actions.setProduct(data)
-      }
+       
      return data
 }
 

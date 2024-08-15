@@ -13,6 +13,8 @@ import addProductSchema from "../../schema/addProductSchemaForZod/addProductSche
 import { useEffect, useRef } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
+import productApi from "../../Redux/api/productApi";
 
 // Input value type
 type IFormInput = {
@@ -24,6 +26,11 @@ type IFormInput = {
 };
 
 export default function AddProduct() {
+  const useAddDueMutation = productApi.endpoints.addDues.useMutation;
+
+  const [ addDues]  = useAddDueMutation();
+
+   
   const {
     control,
     handleSubmit,
@@ -31,11 +38,11 @@ export default function AddProduct() {
     formState: { errors, isValid, isSubmitting },
   } = useForm<IFormInput>({
     defaultValues: {
-      buyerName: "",
-      sellerName: "",
-      buyingPrice: "",
-      buyingDate: "",
-      expiredDate: "",
+      buyerName: "mohammad",
+      sellerName: "jafar",
+      buyingPrice: 1200,
+      buyingDate: "2024-08-16",
+      expiredDate: "2024-08-20",
     },
     resolver: zodResolver(addProductSchema),
   });
@@ -61,9 +68,23 @@ export default function AddProduct() {
   }, [errors]);
 
   // submit handler
-  const submit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+  const Submit: SubmitHandler<IFormInput> = async (
+    formInputData: IFormInput
+  ) => {
 
+   
+    const res = await addDues(formInputData);
+   
+
+      console.log(res.data)
+
+    if (res.data?.status  === 201) {
+       Swal.fire({
+        icon: "success",
+        title: "Due added successfully",
+      });
+    }
+   
     reset();
   };
 
@@ -99,7 +120,7 @@ export default function AddProduct() {
         }}
         noValidate
         autoComplete="off"
-        onSubmit={handleSubmit(submit)}
+        onSubmit={handleSubmit(Submit)}
       >
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={6}>
@@ -297,7 +318,7 @@ export default function AddProduct() {
             </p>
           </Grid>
           <Button
-            disabled={!isValid}
+            disabled={!isValid || isSubmitting}
             type="submit"
             fullWidth
             style={{ marginLeft: "16px" }}

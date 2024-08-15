@@ -1,48 +1,49 @@
-
+import dayjs from "dayjs";
 import baseApi from "./baseApi";
 
 type product = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
+  buyerName: string | "";
+  sellerName: string | "";
+  buyingPrice: number | "";
+  buyingDate: dayjs.Dayjs | "";
+  expiredDate: dayjs.Dayjs | "";
 };
-const Product_Api = "/posts";
-
-
-
+const Due_Api = "/dues";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getProducts: build.query<product, string>({
+    getDues: build.query<product, void>({
       query: () => ({
-        url: Product_Api,
+        url: Due_Api,
         method: "GET",
       }),
     }),
-    getSingleProduct: build.query<product, string>({
+    getSingleDue: build.query<product, string>({
       query: (id) => ({
-        url: `${Product_Api}/${id}`,
+        url: `${Due_Api}/${id}`,
         method: "GET",
       }),
     }),
-    addProducts: build.mutation<product, string>({
+    addDues: build.mutation<product, product>({
       query: (data) => ({
-        url: Product_Api,
+        url: Due_Api,
         method: "POST",
-        body:data
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ dueData: data }),
       }),
     }),
-    updateProduct: build.mutation<product, string>({
+    updateDue: build.mutation<product, string>({
       query: (id) => ({
-        url: `${Product_Api}/${id}`,
+        url: `${Due_Api}/${id}`,
         method: "POST",
-       // body:data
+        // body:data
       }),
     }),
-    deleteProduct: build.mutation<product, string>({
+    deleteDue: build.mutation<product, string>({
       query: (id) => ({
-        url: `${Product_Api}/${id}`,
+        url: `${Due_Api}/${id}`,
         method: "DELETE",
       }),
     }),

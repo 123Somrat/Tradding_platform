@@ -4,6 +4,7 @@ import MainLayouts from "../Layouts/MainLayouts/MainLayouts";
 import DashboardLayouts from "../Layouts/DashboardLayouts/DashboardLayouts";
 import AddProduct from "../Pages/addProduct/AddProduct";
 import AllDue from "../Pages/AllDue/AllDue";
+import DashboardHome from "../Components/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       {
          index:true,
-         element:<h1>This is dashboard page</h1>
+         element:<DashboardHome />
       },
       {
         path: "Add_due",
