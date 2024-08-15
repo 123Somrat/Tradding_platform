@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
+import { Link } from "@mui/material";
 
 const pages = ["Home", "About", "Contact", "dashboard"];
 const settings = ["Profile", "Account", "dashboard", "Logout"];
@@ -43,21 +44,23 @@ export default function NavBar() {
     <AppBar position="static" color="inherit" sx={{ boxShadow: "none" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 300,
-              letterSpacing: ".1rem",
-              color: "green",
-              textDecoration: "none",
-            }}
-          >
-            Khaja Ajmir Traders
-          </Typography>
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 300,
+                letterSpacing: ".1rem",
+                color: "green",
+                textDecoration: "none",
+              }}
+            >
+              Khaja Ajmir Traders
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -123,7 +126,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <NavLink
-              to={`${page ==="Home" ? '/' :  page}`}
+                to={`${page === "Home" ? "/" : page}`}
                 key={page}
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? "active" : ""

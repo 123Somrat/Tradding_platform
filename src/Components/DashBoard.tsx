@@ -126,7 +126,7 @@ export default function DashBoard() {
           <List>
             {["Home", "Add_due", "All_Due", "Sell_record"].map(
               (text, index) => (
-                <NavLink to={`/dashboard/${text}`}>
+                <NavLink to={`${text==='Home' ? '/dashboard' : `/dashboard/${text}`}`}>
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
