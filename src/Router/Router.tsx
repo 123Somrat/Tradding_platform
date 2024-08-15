@@ -5,6 +5,7 @@ import DashboardLayouts from "../Layouts/DashboardLayouts/DashboardLayouts";
 import AddProduct from "../Pages/addProduct/AddProduct";
 import AllDue from "../Pages/AllDue/AllDue";
 import DashboardHome from "../Components/DashboardHome";
+import Home from "../Components/Home";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     children:[
       {
         path:'/',
-        element:<h1>This is home page</h1>
+        element:<Home/>
     }
   ]
   },

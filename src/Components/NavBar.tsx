@@ -11,15 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const pages = ["Home", "About", "Contact", "dashboard"];
 const settings = ["Profile", "Account", "dashboard", "Logout"];
 
 export default function NavBar() {
-
-  
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -43,26 +40,24 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" color="inherit" sx={{boxShadow:'none'}}>
+    <AppBar position="static" color="inherit" sx={{ boxShadow: "none" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <NavLink to="/">
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 300,
-                letterSpacing: ".1rem",
-                color: "green",
-                textDecoration: "none",
-              }}
-            >
-              Khaja Ajmir Traders
-            </Typography>
-          </NavLink>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 300,
+              letterSpacing: ".1rem",
+              color: "green",
+              textDecoration: "none",
+            }}
+          >
+            Khaja Ajmir Traders
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -96,7 +91,7 @@ export default function NavBar() {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <NavLink
-                    to={`/${page}`}
+                    to={`${page === "Home" ? "/" : page}`}
                     className={({ isActive, isPending }) =>
                       isPending ? "pending" : isActive ? "active" : ""
                     }
@@ -128,7 +123,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <NavLink
-                to={`/${page}`}
+              to={`${page ==="Home" ? '/' :  page}`}
                 key={page}
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? "active" : ""
