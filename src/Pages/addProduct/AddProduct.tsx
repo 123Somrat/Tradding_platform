@@ -76,7 +76,7 @@ export default function AddProduct() {
     const res = await addDues(formInputData);
    
 
-      console.log(res.data)
+      
 
     if (res.data?.status  === 201) {
        Swal.fire({

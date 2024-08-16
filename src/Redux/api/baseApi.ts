@@ -2,7 +2,7 @@ import {  BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError
 
 
 const baseQuery = fetchBaseQuery({
-   baseUrl:'http://localhost:3000/api/v1',
+   baseUrl:'http://localhost:4000/api/v1',
    credentials:'include',
    prepareHeaders:()=>{ }
 })

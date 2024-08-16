@@ -45,7 +45,7 @@ const addProductSchema = z
     },
     {
       message: "Expired date must be later than buying date",
-      path: ["expiredDate"], // Adjust the error path as needed
+      path: ["expiredDate"], 
     }
   );
 
