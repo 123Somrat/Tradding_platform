@@ -10,11 +10,12 @@ import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import addProductSchema from "../../schema/addProductSchemaForZod/addProductSchemaForZod";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import productApi from "../../Redux/api/productApi";
+import ShowModal from "../../Utils/ShowModal";
 
 // Input value type
 type IFormInput = {
@@ -27,10 +28,9 @@ type IFormInput = {
 
 export default function AddProduct() {
   const useAddDueMutation = productApi.endpoints.addDues.useMutation;
+  const [addDues] = useAddDueMutation();
+  const [show, setShow] = useState(false);
 
-  const [ addDues]  = useAddDueMutation();
-
-   
   const {
     control,
     handleSubmit,
@@ -41,11 +41,12 @@ export default function AddProduct() {
       buyerName: "mohammad",
       sellerName: "jafar",
       buyingPrice: 1200,
-      buyingDate: "2024-08-16",
+      buyingDate: "2024-08-18",
       expiredDate: "2024-08-20",
     },
     resolver: zodResolver(addProductSchema),
   });
+
   const buyerNameRef = useRef<HTMLInputElement>(null);
   const sellerNameRef = useRef<HTMLInputElement>(null);
   const buyingPriceRef = useRef<HTMLInputElement>(null);
@@ -65,271 +66,346 @@ export default function AddProduct() {
     } else if (errors.expiredDate) {
       expiredDateRef.current?.focus();
     }
-  }, [errors]);
+  }, [errors,show]);
 
   // submit handler
   const Submit: SubmitHandler<IFormInput> = async (
     formInputData: IFormInput
   ) => {
+ 
+      setShow(true);
+    
 
-   
-    const res = await addDues(formInputData);
-   
-
-      
-
-    if (res.data?.status  === 201) {
-       Swal.fire({
-        icon: "success",
-        title: "Due added successfully",
+      setShow((prev) => {
+        if (!prev) {
+          const sendDue = async () => {
+            const res =await addDues(formInputData);
+              console.log(res)
+            if (res.data?.status === 201) {
+              Swal.fire({
+                icon: "success",
+                title: "Due added successfully",
+              });
+            }
+          };
+          sendDue();
+  
+          reset();
+        }
+        return true;
       });
-    }
+
+
+
+
+
+
+
+
+    /*
+
+    if (show) {
+      // Send data in backend
+      const res = await addDues(formInputData);
    
-    reset();
+      if (res.data?.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "Due added successfully",
+        });
+      }
+
+      reset();
+    }
+
+    /*
+    setShow((prev) => {
+      if (!prev) {
+        const sendDue = async () => {
+          const res =await addDues(formInputData);
+            console.log(res)
+          if (res.data?.status === 201) {
+            Swal.fire({
+              icon: "success",
+              title: "Due added successfully",
+            });
+          }
+        };
+        sendDue();
+
+        reset();
+      }
+      return true;
+    });
+*/
+    // setshow hooks finished
   };
 
-  return (
-    <Box
-      sx={{
-        p: 2,
-        border: 2,
-        borderColor: "green",
-      }}
-    >
-      <Typography className="text-center text-green-800" mb={3}>
-        Add Product
-      </Typography>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": {
-            mb: 2,
-            width: "auto",
-            borderBottom: "1px solid grey",
-            "&:focus-within": {
-              borderBottomColor: "green", // Change border color on focus
-            },
-          },
-          "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-            border: "none",
-            margin: "0px",
-          },
-          "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
-            marginBottom: "9px",
-          },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(Submit)}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={6}>
-            <FormControl color="success" error={!!errors.buyerName} fullWidth>
-              <InputLabel
-                htmlFor="buyerName"
-                color="success"
-                error={!!errors.buyerName}
-              >
-                BuyerName
-              </InputLabel>
-              <Controller
-                name="buyerName"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    id="firstName"
-                    aria-describedby="buyerName"
-                    fullWidth
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
-                    {...field}
-                    inputRef={buyerNameRef}
-                  />
-                )}
-              />
-            </FormControl>
-            <p>
-              {errors.buyerName ? (
-                <span className="text-red-500 text-xs md:text-sm">
-                  {errors.buyerName.message}
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-          </Grid>
+  console.log(show);
 
-          <Grid item xs={12} sm={6} md={6}>
-            <FormControl color="success" error={!!errors.sellerName} fullWidth>
-              <InputLabel
-                htmlFor="SellerName"
-                color="success"
-                error={!!errors.sellerName}
-              >
-                SellerName
-              </InputLabel>
-              <Controller
-                name="sellerName"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    id="sellerName"
-                    aria-describedby="my-helper-text"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
-                    {...field}
-                    fullWidth
-                    inputRef={sellerNameRef}
-                  />
-                )}
-              />
-            </FormControl>
-            <p>
-              {errors.sellerName ? (
-                <span className="text-red-500 text-xs md:text-sm">
-                  {errors.sellerName.message}
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <FormControl color="success" error={!!errors.buyingPrice} fullWidth>
-              <InputLabel
-                htmlFor="Buying Price"
-                color="success"
-                error={!!errors.buyingPrice}
-              >
-                Bying Price
-              </InputLabel>
-              <Controller
-                name="buyingPrice"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    id="buyingPrice"
-                    fullWidth
-                    aria-describedby="my-helper-text"
-                    className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
-                    {...field}
-                    inputRef={buyingPriceRef}
-                  />
-                )}
-              />
+  return (
+    <>
+      <Box
+        sx={{
+          p: 2,
+          border: 2,
+          borderColor: "green",
+        }}
+      >
+        <Typography className="text-center text-green-800" mb={3}>
+          Add Product
+        </Typography>
+        <div className="  md:w-8/12 mx-auto z-50 absolute ">
+          {show && <ShowModal setterFunction={setShow} />}
+        </div>
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": {
+              mb: 2,
+              width: "auto",
+              borderBottom: "1px solid grey",
+              "&:focus-within": {
+                borderBottomColor: "green", // Change border color on focus
+              },
+            },
+            "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+              border: "none",
+              margin: "0px",
+            },
+            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+              marginBottom: "9px",
+            },
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(Submit)}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl color="success" error={!!errors.buyerName} fullWidth>
+                <InputLabel
+                  htmlFor="buyerName"
+                  color="success"
+                  error={!!errors.buyerName}
+                >
+                  BuyerName
+                </InputLabel>
+                <Controller
+                  name="buyerName"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="firstName"
+                      aria-describedby="buyerName"
+                      fullWidth
+                      className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
+                      {...field}
+                      inputRef={buyerNameRef}
+                    />
+                  )}
+                />
+              </FormControl>
               <p>
-                {errors.buyingPrice ? (
+                {errors.buyerName ? (
                   <span className="text-red-500 text-xs md:text-sm">
-                    {errors.buyingPrice.message}
+                    {errors.buyerName.message}
                   </span>
                 ) : (
                   ""
                 )}
               </p>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <FormControl color="success" error={!!errors.buyingDate} fullWidth>
-              <InputLabel
-                htmlFor="buyingDate"
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl
+                color="success"
+                error={!!errors.sellerName}
+                fullWidth
+              >
+                <InputLabel
+                  htmlFor="SellerName"
+                  color="success"
+                  error={!!errors.sellerName}
+                >
+                  SellerName
+                </InputLabel>
+                <Controller
+                  name="sellerName"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="sellerName"
+                      aria-describedby="my-helper-text"
+                      className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
+                      {...field}
+                      fullWidth
+                      inputRef={sellerNameRef}
+                    />
+                  )}
+                />
+              </FormControl>
+              <p>
+                {errors.sellerName ? (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    {errors.sellerName.message}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </p>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl
+                color="success"
+                error={!!errors.buyingPrice}
+                fullWidth
+              >
+                <InputLabel
+                  htmlFor="Buying Price"
+                  color="success"
+                  error={!!errors.buyingPrice}
+                >
+                  Bying Price
+                </InputLabel>
+                <Controller
+                  name="buyingPrice"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      id="buyingPrice"
+                      fullWidth
+                      aria-describedby="my-helper-text"
+                      className="min-w-64 md:w-52 xl:w-96 mb-8 px-4"
+                      {...field}
+                      inputRef={buyingPriceRef}
+                    />
+                  )}
+                />
+                <p>
+                  {errors.buyingPrice ? (
+                    <span className="text-red-500 text-xs md:text-sm">
+                      {errors.buyingPrice.message}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </p>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl
                 color="success"
                 error={!!errors.buyingDate}
-              ></InputLabel>
-              <Controller
-                name="buyingDate"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label="Buying Date"
-                    disablePast
-                    orientation="portrait"
-                    formatDensity="spacious"
-                    disableHighlightToday
-                    displayWeekNumber
-                    value={dayjs(field.value)}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                    className="mb-2"
-                    inputRef={buyingDateRef}
-                    slotProps={{
-                      openPickerIcon: { fontSize: "medium" },
-                      openPickerButton: { color: "success" },
+                fullWidth
+              >
+                <InputLabel
+                  htmlFor="buyingDate"
+                  color="success"
+                  error={!!errors.buyingDate}
+                ></InputLabel>
+                <Controller
+                  name="buyingDate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      label="Buying Date"
+                      disablePast
+                      orientation="portrait"
+                      formatDensity="spacious"
+                      disableHighlightToday
+                      displayWeekNumber
+                      value={dayjs(field.value)}
+                      onChange={(date) =>
+                        field.onChange(date?.format("YYYY-MM-DD"))
+                      }
+                      className="mb-2"
+                      inputRef={buyingDateRef}
+                      slotProps={{
+                        openPickerIcon: { fontSize: "medium" },
+                        openPickerButton: { color: "success" },
 
-                      textField: {
-                        focused: true,
-                        color: "success",
-                      },
-                    }}
-                  />
+                        textField: {
+                          focused: true,
+                          color: "success",
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </FormControl>
+              <p>
+                {errors.buyingDate ? (
+                  <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
+                    {errors.buyingDate.message}
+                  </span>
+                ) : (
+                  ""
                 )}
-              />
-            </FormControl>
-            <p>
-              {errors.buyingDate ? (
-                <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
-                  {errors.buyingDate.message}
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <FormControl color="success" error={!!errors.expiredDate} fullWidth>
-              <InputLabel
-                htmlFor="expeiredDate"
+              </p>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl
                 color="success"
                 error={!!errors.expiredDate}
-              ></InputLabel>
-              <Controller
-                name="expiredDate"
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label="Expeired Date"
-                    value={dayjs(field.value)}
-                    disablePast
-                    formatDensity="spacious"
-                    disableHighlightToday
-                    displayWeekNumber
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                    inputRef={expiredDateRef}
-                    slotProps={{
-                      openPickerIcon: { fontSize: "medium" },
-                      openPickerButton: { color: "success" },
-                      textField: {
-                        focused: true,
-                        color: "success",
-                      },
-                    }}
-                  />
+                fullWidth
+              >
+                <InputLabel
+                  htmlFor="expeiredDate"
+                  color="success"
+                  error={!!errors.expiredDate}
+                ></InputLabel>
+                <Controller
+                  name="expiredDate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      label="Expeired Date"
+                      value={dayjs(field.value)}
+                      disablePast
+                      formatDensity="spacious"
+                      disableHighlightToday
+                      displayWeekNumber
+                      onChange={(date) =>
+                        field.onChange(date?.format("YYYY-MM-DD"))
+                      }
+                      inputRef={expiredDateRef}
+                      slotProps={{
+                        openPickerIcon: { fontSize: "medium" },
+                        openPickerButton: { color: "success" },
+                        textField: {
+                          focused: true,
+                          color: "success",
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </FormControl>
+              <p>
+                {errors.expiredDate ? (
+                  <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
+                    {errors.expiredDate.message}
+                  </span>
+                ) : (
+                  ""
                 )}
-              />
-            </FormControl>
-            <p>
-              {errors.expiredDate ? (
-                <span className="text-red-500 text-xs md:text-sm md:mb-8 block">
-                  {errors.expiredDate.message}
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
+              </p>
+            </Grid>
+            <Button
+              disabled={!isValid || isSubmitting}
+              type="submit"
+              fullWidth
+              style={{ marginLeft: "16px" }}
+              variant="contained"
+              color="success"
+              className="hover:bg-green-900 ml-2"
+            >
+              {isSubmitting ? "Adding product...." : "Add Product"}
+            </Button>
           </Grid>
-          <Button
-            disabled={!isValid || isSubmitting}
-            type="submit"
-            fullWidth
-            style={{ marginLeft: "16px" }}
-            variant="contained"
-            color="success"
-            className="hover:bg-green-900 ml-2"
-          >
-            {isSubmitting ? "Adding product...." : "Add Product"}
-          </Button>
-        </Grid>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
