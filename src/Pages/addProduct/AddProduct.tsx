@@ -89,17 +89,21 @@ export default function AddProduct() {
     });
 
     // Trading password is oke then call the product api for create the product
-    if (result === "somrat") {
-      const res = await addDues(formInputData);
-      console.log(res);
-      if (res.data?.status === 201) {
-        Swal.fire({
-          icon: "success",
-          title: "Due added successfully",
-        });
-      }
+    try {
+      if (result === "somrat") {
+        const res = await addDues(formInputData);
 
-      reset();
+        if (res.data) {
+          Swal.fire({
+            icon: "success",
+            title: "Due added successfully",
+          });
+        }
+
+        reset();
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
