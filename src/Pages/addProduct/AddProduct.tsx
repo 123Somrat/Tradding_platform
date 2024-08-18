@@ -13,9 +13,9 @@ import addProductSchema from "../../schema/addProductSchemaForZod/addProductSche
 import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import Swal from "sweetalert2";
+import ModalForm from "../../Utils/Modal";
 import productApi from "../../Redux/api/productApi";
-import ShowModal from "../../Utils/ShowModal";
+import HandleAddProduct from "./HandleAddProduct";
 
 // Input value type
 type IFormInput = {
@@ -89,24 +89,13 @@ export default function AddProduct() {
     });
 
     // Trading password is oke then call the product api for create the product
-    try {
-      if (result === "somrat") {
-        const res = await addDues(formInputData);
 
-        if (res.data) {
-          Swal.fire({
-            icon: "success",
-            title: "Due added successfully",
-          });
-        }
-
-        reset();
-      }
-    } catch (err) {
-      console.log(err);
+    if (result === "somrat") {
+      const res = await HandleAddProduct(formInputData, addDues);
+      console.log(res);
+      reset();
     }
   };
-
   return (
     <>
       <Box
@@ -121,7 +110,7 @@ export default function AddProduct() {
         </Typography>
         <div className="  md:w-8/12 mx-auto z-50 absolute ">
           {show && (
-            <ShowModal setterFunction={setShow} modalFunction={modalFn} />
+            <ModalForm setterFunction={setShow} modalFunction={modalFn} />
           )}
         </div>
         <Box

@@ -16,7 +16,7 @@ type PropsType = {
   modalFunction: (data: string) => void;
 };
 
-export default function ShowModal({
+export default function ModalForm({
   setterFunction,
   modalFunction,
 }: PropsType) {
