@@ -30,6 +30,9 @@ export default function AddProduct() {
   const useAddDueMutation = productApi.endpoints.addDues.useMutation;
   const [addDues] = useAddDueMutation();
   const [show, setShow] = useState(false);
+  const [modalFn, setModalFunction] = useState<(data: string) => void>(
+    () => {}
+  );
 
   const {
     control,
@@ -66,48 +69,29 @@ export default function AddProduct() {
     } else if (errors.expiredDate) {
       expiredDateRef.current?.focus();
     }
-  }, [errors,show]);
+  }, [errors, show]);
 
   // submit handler
   const Submit: SubmitHandler<IFormInput> = async (
     formInputData: IFormInput
   ) => {
- 
-      setShow(true);
-    
+    // Show the modal
+    setShow(true);
 
-      setShow((prev) => {
-        if (!prev) {
-          const sendDue = async () => {
-            const res =await addDues(formInputData);
-              console.log(res)
-            if (res.data?.status === 201) {
-              Swal.fire({
-                icon: "success",
-                title: "Due added successfully",
-              });
-            }
-          };
-          sendDue();
-  
-          reset();
-        }
-        return true;
-      });
+    // Pause the Add product api call useing promise for checking trading password
+    const result = await new Promise<string>((resolve) => {
+      const modalFunction = (data: string) => {
+        resolve(data);
+      };
 
+      // Pass modalFunction to the modal through props
+      setModalFunction(() => modalFunction);
+    });
 
-
-
-
-
-
-
-    /*
-
-    if (show) {
-      // Send data in backend
+    // Trading password is oke then call the product api for create the product
+    if (result === "somrat") {
       const res = await addDues(formInputData);
-   
+      console.log(res);
       if (res.data?.status === 201) {
         Swal.fire({
           icon: "success",
@@ -117,31 +101,7 @@ export default function AddProduct() {
 
       reset();
     }
-
-    /*
-    setShow((prev) => {
-      if (!prev) {
-        const sendDue = async () => {
-          const res =await addDues(formInputData);
-            console.log(res)
-          if (res.data?.status === 201) {
-            Swal.fire({
-              icon: "success",
-              title: "Due added successfully",
-            });
-          }
-        };
-        sendDue();
-
-        reset();
-      }
-      return true;
-    });
-*/
-    // setshow hooks finished
   };
-
-  console.log(show);
 
   return (
     <>
@@ -156,7 +116,9 @@ export default function AddProduct() {
           Add Product
         </Typography>
         <div className="  md:w-8/12 mx-auto z-50 absolute ">
-          {show && <ShowModal setterFunction={setShow} />}
+          {show && (
+            <ShowModal setterFunction={setShow} modalFunction={modalFn} />
+          )}
         </div>
         <Box
           component="form"
@@ -311,7 +273,6 @@ export default function AddProduct() {
                     <DatePicker
                       label="Buying Date"
                       disablePast
-                      orientation="portrait"
                       formatDensity="spacious"
                       disableHighlightToday
                       displayWeekNumber
