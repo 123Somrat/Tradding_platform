@@ -10,9 +10,9 @@ const baseQuery = fetchBaseQuery({
 const customBaseQuery:BaseQueryFn<string | FetchArgs,
 unknown,
 FetchBaseQueryError> = async (args,api,extraOptions)=>{
-     const data = await baseQuery(args,api,extraOptions);
+     const response = await baseQuery(args,api,extraOptions);
     
-     return data
+     return response
 }
 
 const baseApi = createApi({
