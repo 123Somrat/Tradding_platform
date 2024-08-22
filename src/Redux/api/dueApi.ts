@@ -10,9 +10,9 @@ type product = {
 };
 const Due_Api = "/dues";
 
-const productApi = baseApi.injectEndpoints({
+const dueApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getDues: build.query<product, void>({
+    getDues: build.query<'', void>({
       query: () => ({
         url: Due_Api,
         method: "GET",
@@ -50,4 +50,4 @@ const productApi = baseApi.injectEndpoints({
   }),
 });
 
-export default productApi;
+export default dueApi;

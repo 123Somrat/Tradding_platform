@@ -5,7 +5,7 @@ import { AllSeriesType } from "@mui/x-charts/models";
 import { ChartsXAxis } from "@mui/x-charts/ChartsXAxis";
 import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
 import { ScatterChart } from "@mui/x-charts";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 
 const series = [
   {
@@ -192,7 +192,13 @@ const data = [
 ];
 export default function DashboardHome() {
   return (
-    <Box  justifyItems='space-around' gap={2} alignItems='center' width='100%' className='sm:flex flex-col md:flex-row'>
+    <Box
+      justifyItems="space-around"
+      gap={2}
+      alignItems="center"
+      width="100%"
+      className="sm:flex flex-col md:flex-row"
+    >
       <ChartContainer
         series={series}
         width={700}
@@ -223,6 +229,7 @@ export default function DashboardHome() {
         <ChartsYAxis label="PIB" position="right" axisId="pib" />
       </ChartContainer>
       <ScatterChart
+     
         width={700}
         height={500}
         series={[

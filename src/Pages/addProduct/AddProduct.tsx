@@ -14,20 +14,14 @@ import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import ModalForm from "../../Utils/Modal";
-import productApi from "../../Redux/api/productApi";
+import dueApi from "../../Redux/api/dueApi";
 import HandleAddProduct from "./HandleAddProduct";
+import { IFormInput } from "../../types/types";
 
-// Input value type
-type IFormInput = {
-  buyerName: string | "";
-  sellerName: string | "";
-  buyingPrice: number | "";
-  buyingDate: dayjs.Dayjs | "";
-  expiredDate: dayjs.Dayjs | "";
-};
+
 
 export default function AddProduct() {
-  const useAddDueMutation = productApi.endpoints.addDues.useMutation;
+  const useAddDueMutation =dueApi.endpoints.addDues.useMutation;
   const [addDues] = useAddDueMutation();
   const [show, setShow] = useState(false);
   const [modalFn, setModalFunction] = useState<(data: string) => void>(
