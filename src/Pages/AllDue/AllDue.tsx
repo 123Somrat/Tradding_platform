@@ -48,7 +48,9 @@ export default function AllDue() {
       expiredDate,
     })
   );
- 
+  data?.data?.map((data) =>
+    console.log(console.log(dayjs(data.expiredDate).diff(dayjs(), "day", true)))
+  );
 
   return (
     <Box>
@@ -66,7 +68,7 @@ export default function AllDue() {
               <StyledTableCell align="center">
                 ExpiredDate&nbsp;(g)
               </StyledTableCell>
-              <StyledTableCell align="center">Remaining Days</StyledTableCell>
+              <StyledTableCell align="center">ExpiredIn</StyledTableCell>
 
               <StyledTableCell align="center">Status</StyledTableCell>
             </TableRow>
@@ -99,13 +101,13 @@ export default function AllDue() {
                   {
                     <Chip
                       label={
-                        dayjs(row.expiredDate).diff(dayjs(), "day", true) < 1
-                          ? "expired soon"
-                          : "have time"
+                        Math.round(dayjs(row.expiredDate).diff(dayjs(), "day", true)) <= 1
+                          ? "Expired soon"
+                          : "Have time"
                       }
                       size="small"
                       color={
-                        dayjs(row.expiredDate).diff(dayjs(), "day", true) < 1
+                        Math.round(dayjs(row.expiredDate).diff(dayjs(), "day", true)) <= 1
                           ? "warning"
                           : "success"
                       }
