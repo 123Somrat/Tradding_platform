@@ -11,7 +11,7 @@ const customBaseQuery:BaseQueryFn<string | FetchArgs,
 unknown,
 FetchBaseQueryError> = async (args,api,extraOptions)=>{
      const data = await baseQuery(args,api,extraOptions);
-       
+    
      return data
 }
 

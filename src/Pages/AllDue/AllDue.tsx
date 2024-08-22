@@ -8,11 +8,12 @@ import { Typography } from "@mui/material";
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
-  const { data }= useGetDuesQuerys()
+  const { data }= useGetDuesQuerys({})
   
-
-
   console.log(data)
+
+
+
 
 
  
