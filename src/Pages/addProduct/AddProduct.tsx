@@ -35,11 +35,11 @@ export default function AddProduct() {
     formState: { errors, isValid, isSubmitting },
   } = useForm<IFormInput>({
     defaultValues: {
-      buyerName: "",
-      sellerName: "",
-      buyingPrice: undefined,
-      buyingDate: "",
-      expiredDate: "",
+      buyerName: "Khaja ajmir traders",
+      sellerName: "Maijbander traders",
+      buyingPrice: 5000000,
+      buyingDate: "2024-08-27",
+      expiredDate: "2024-09-07",
     },
     resolver: zodResolver(addProductSchema),
   });
@@ -63,7 +63,7 @@ export default function AddProduct() {
     } else if (errors.expiredDate) {
       expiredDateRef.current?.focus();
     }
-  }, [errors, show]);
+  }, [errors]);
 
   // submit handler
   const Submit: SubmitHandler<IFormInput> = async (

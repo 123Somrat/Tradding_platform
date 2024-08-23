@@ -17,6 +17,7 @@ const dueApi = baseApi.injectEndpoints({
       query: () => ({
         url: Due_Api,
         method: "GET",
+      
       }),
       transformResponse:(response: TResponseRedux<product[]>)=>{
         return {
@@ -24,7 +25,8 @@ const dueApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
 
-      }
+      },
+      providesTags:['dueAdded']
     }),
     getSingleDue: build.query<product, string>({
       query: (id) => ({

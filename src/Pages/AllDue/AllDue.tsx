@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import dueApi from "../../Redux/api/dueApi";
 import {
   Chip,
+  Pagination,
   Paper,
   styled,
   Table,
@@ -38,6 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
   const { data } = useGetDuesQuerys({});
+  const totalPage = data?.meta?.totalPage;
 
   const rows = data?.data?.map(
     ({ buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
@@ -48,14 +50,11 @@ export default function AllDue() {
       expiredDate,
     })
   );
-  data?.data?.map((data) =>
-    console.log(console.log(dayjs(data.expiredDate).diff(dayjs(), "day", true)))
-  );
 
   return (
     <Box>
       <Typography className="text-green-900 text-center">All Due</Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ mb: 2 }}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -69,7 +68,6 @@ export default function AllDue() {
                 ExpiredDate&nbsp;(g)
               </StyledTableCell>
               <StyledTableCell align="center">ExpiredIn</StyledTableCell>
-
               <StyledTableCell align="center">Status</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -101,13 +99,17 @@ export default function AllDue() {
                   {
                     <Chip
                       label={
-                        Math.round(dayjs(row.expiredDate).diff(dayjs(), "day", true)) <= 1
+                        Math.round(
+                          dayjs(row.expiredDate).diff(dayjs(), "day", true)
+                        ) <= 1
                           ? "Expired soon"
                           : "Have time"
                       }
                       size="small"
                       color={
-                        Math.round(dayjs(row.expiredDate).diff(dayjs(), "day", true)) <= 1
+                        Math.round(
+                          dayjs(row.expiredDate).diff(dayjs(), "day", true)
+                        ) <= 1
                           ? "warning"
                           : "success"
                       }
@@ -119,6 +121,8 @@ export default function AllDue() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Pagination count={totalPage} />
     </Box>
   );
 }
