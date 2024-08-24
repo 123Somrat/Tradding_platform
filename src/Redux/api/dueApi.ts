@@ -14,9 +14,9 @@ const Due_Api = "/dues";
 const dueApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getDues: build.query({
-      query: ({ page, limit }) => {
+      query: ({ page, limit , sortBy }) => {
         // Create the searchParams
-        const searchParams = new URLSearchParams({ page, limit });
+        const searchParams = new URLSearchParams({ page, limit , sortBy });
 
         return {
           url: Due_Api,
