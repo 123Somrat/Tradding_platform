@@ -14,19 +14,23 @@ const Due_Api = "/dues";
 const dueApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getDues: build.query({
-      query: () => ({
-        url: Due_Api,
-        method: "GET",
-      
-      }),
-      transformResponse:(response: TResponseRedux<product[]>)=>{
+      query: ({ page, limit }) => {
+        // Create the searchParams
+        const searchParams = new URLSearchParams({ page, limit });
+
+        return {
+          url: Due_Api,
+          method: "GET",
+          params: searchParams,
+        };
+      },
+      transformResponse: (response: TResponseRedux<product[]>) => {
         return {
           data: response.data,
           meta: response.meta,
         };
-
       },
-      providesTags:['dueAdded']
+      providesTags: ["dueAdded"],
     }),
     getSingleDue: build.query<product, string>({
       query: (id) => ({

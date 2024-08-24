@@ -15,6 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useState } from "react";
+import {  useNavigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,9 +40,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
-  const { data } = useGetDuesQuerys({});
-  const totalPage = data?.meta?.totalPage;
+  const [currentPage, setCurrentPage] = useState({page:1});
 
+  console.log('current,',currentPage)
+  const  queryParams = {page:currentPage.page,limit:5};
+  console.log(queryParams)
+  const { data } = useGetDuesQuerys(queryParams);
+  const navigate = useNavigate()
+  const totalPage = data?.meta?.totalPage;
+    
+  // Table rows
   const rows = data?.data?.map(
     ({ buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
       buyerName,
@@ -50,6 +59,12 @@ export default function AllDue() {
       expiredDate,
     })
   );
+
+ const handleNavigate = (id:string)=>{
+    navigate(`/api/va/dues/${id}`)
+ }
+
+
 
   return (
     <Box>
@@ -73,8 +88,9 @@ export default function AllDue() {
           </TableHead>
           <TableBody>
             {rows?.map((row) => (
-              <StyledTableRow key={row.buyerName}>
-                <StyledTableCell component="th" scope="row">
+              
+              <StyledTableRow onClick={()=>handleNavigate(row.buyerName)}>
+                <StyledTableCell component="th" scope="row" sx={{ p: 4 }}>
                   {row.buyerName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -121,8 +137,10 @@ export default function AllDue() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Pagination count={totalPage} />
+      <Pagination
+        count={totalPage}
+        onChange={(_e, page) => setCurrentPage({page:page})}
+      />
     </Box>
   );
 }
