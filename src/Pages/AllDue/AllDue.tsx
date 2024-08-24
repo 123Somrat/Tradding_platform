@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
@@ -27,6 +28,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
+  [`&.${tableCellClasses.head}`]: {
+    fontSize: 14,
+    position: 'relative', // Add this to position the arrow icon relative to the cell
+    cursor: 'pointer',
+    '&:hover .arrow': {
+      opacity: 1, // Show the arrow icon on hover
+    },
+  },
+  
+
+ 
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -43,7 +55,7 @@ export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
   const [currentPage, setCurrentPage] = useState({ page: 1 });
   const [sortBy,setSortBy]= useState('expiredDate')
-  const queryParams = { page: currentPage.page, limit: 5 ,sortBy};
+  const queryParams = { page: currentPage.page, limit: 5 ,sortBy , sortType:'dsc'};
   // Fethcing all dues
   const { data } = useGetDuesQuerys(queryParams);
   const navigate = useNavigate();
@@ -63,7 +75,11 @@ export default function AllDue() {
   const handleNavigate = (id: string) => {
     navigate(`/api/va/dues/${id}`);
   };
-
+  // showing arrow icon when hover
+  const ArrowIcon = styled(ArrowUpwardIcon)(({ theme }) => ({
+    opacity: 0,
+    transition: 'opacity 0.3s',
+  }));
   return (
     <Box>
       <Typography className="text-green-900 text-center">All Due</Typography>
@@ -76,11 +92,11 @@ export default function AllDue() {
               </StyledTableCell>
               <StyledTableCell align="center">SellerName</StyledTableCell>
               <StyledTableCell align="center" onClick={()=>setSortBy('buyingPrice')}> 
-              <ArrowUpwardIcon fontSize="small" color="disabled"/>  BuyingPrice
+              <ArrowIcon className="arrow" fontSize="small" color="disabled"/>  BuyingPrice
               </StyledTableCell>
-              <StyledTableCell align="center" onClick={()=>setSortBy('buyingDate')}><ArrowUpwardIcon fontSize="small" color="disabled"/>BuyingDate</StyledTableCell>
+              <StyledTableCell align="center" onClick={()=>setSortBy('buyingDate')}><ArrowIcon className='arrow' fontSize="small" color="disabled"/>BuyingDate</StyledTableCell>
               <StyledTableCell align="center" onClick={()=>setSortBy('expiredDate')}>
-              <ArrowUpwardIcon fontSize="small" color="disabled"/> ExpiredDate
+              <ArrowIcon className="arrow" fontSize="small" color="disabled"/> ExpiredDate
               </StyledTableCell>
               <StyledTableCell align="center">ExpiredIn</StyledTableCell>
               <StyledTableCell align="center">Status</StyledTableCell>
@@ -89,7 +105,7 @@ export default function AllDue() {
           <TableBody>
             {rows?.map((row) => (
               <StyledTableRow onClick={() => handleNavigate(row.buyerName)}>
-                <StyledTableCell component="th" scope="row" sx={{ p: 2 }}>
+                <StyledTableCell component="th" scope="row" sx={{ p:'25px' }}>
                   {row.buyerName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
