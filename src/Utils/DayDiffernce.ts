@@ -16,4 +16,4 @@ const DayDiffernce = (date:Dayjs): number => {
 
 
 
-export { DayDiffernce }
+export default DayDiffernce

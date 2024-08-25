@@ -16,7 +16,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledTableCell, StyledTableRow } from "../../Utils/TableCellAndRowStyle";
 import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
-import { DayDiffernce } from "../../Utils/DayDiffernce";
+
+import Status from "../../Utils/Status";
+import DayDiffernce from "../../Utils/DayDiffernce";
 
 
 export default function AllDue() {
@@ -31,7 +33,6 @@ export default function AllDue() {
   };
   // Fethcing all dues
   const { data } = useGetDuesQuerys(queryParams);
-  console.log(data)
   const navigate = useNavigate();
   const totalPage = data?.meta?.totalPage;
   const sortByTableData = 'dsc'
@@ -46,11 +47,8 @@ export default function AllDue() {
       buyingDate,
       expiredDate,
       expiredIn: DayDiffernce(expiredDate as Dayjs),
-      status:
-        Math.round(dayjs(expiredDate).diff(dayjs(), "day", true)) <= 1
-          ? "Expired soon"
-          : "Have time",
-    })
+      status: Status(expiredDate as Dayjs)
+    })    
   );
 
 
