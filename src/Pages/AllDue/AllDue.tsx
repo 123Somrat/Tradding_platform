@@ -30,13 +30,15 @@ export default function AllDue() {
   };
   // Fethcing all dues
   const { data } = useGetDuesQuerys(queryParams);
+  console.log(data)
   const navigate = useNavigate();
   const totalPage = data?.meta?.totalPage;
   const sortByTableData = 'dsc'
 
   // Table rows
   const rows = data?.data?.map(
-    ({ buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
+    ({_id, buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
+      _id,
       buyerName,
       sellerName,
       buyingPrice,
@@ -50,6 +52,9 @@ export default function AllDue() {
     })
   );
 
+
+
+// Navigate user to see dues details
   const handleNavigate = (id: string) => {
     navigate(`/api/va/dues/${id}`);
   };
@@ -111,7 +116,7 @@ export default function AllDue() {
           </TableHead>
           <TableBody>
             {rows?.map((row) => (
-              <StyledTableRow onClick={() => handleNavigate(row.buyerName)}>
+              <StyledTableRow onClick={() => handleNavigate(row._id as string)}>
                 <StyledTableCell component="th" scope="row" sx={{ p: "25px" }}>
                   {row.buyerName}
                 </StyledTableCell>

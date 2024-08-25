@@ -9,7 +9,8 @@ type IFormInput = {
   expiredDate: dayjs.Dayjs | "";
 };
 
-type TProduct = {
+type TDues = {
+  _id ?:string | ''
   buyerName: string | "";
   sellerName: string | "";
   buyingPrice: number | "";
@@ -17,4 +18,4 @@ type TProduct = {
   expiredDate: dayjs.Dayjs | "";
 };
 
-export type { IFormInput, TProduct };
+export type { IFormInput, TDues };

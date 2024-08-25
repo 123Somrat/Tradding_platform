@@ -1,14 +1,9 @@
-import dayjs from "dayjs";
+
 import baseApi from "./baseApi";
 import { TResponseRedux } from "../../types/global";
+import { TDues } from "../../types/types";
 
-type product = {
-  buyerName: string | "";
-  sellerName: string | "";
-  buyingPrice: number | "";
-  buyingDate: dayjs.Dayjs | "";
-  expiredDate: dayjs.Dayjs | "";
-};
+
 const Due_Api = "/dues";
 
 const dueApi = baseApi.injectEndpoints({
@@ -24,7 +19,7 @@ const dueApi = baseApi.injectEndpoints({
           params: searchParams,
         };
       },
-      transformResponse: (response: TResponseRedux<product[]>) => {
+      transformResponse: (response: TResponseRedux<TDues[]>) => {
         return {
           data: response.data,
           meta: response.meta,
@@ -32,13 +27,13 @@ const dueApi = baseApi.injectEndpoints({
       },
       providesTags: ["dueAdded"],
     }),
-    getSingleDue: build.query<product, string>({
+    getSingleDue: build.query<TDues, string>({
       query: (id) => ({
         url: `${Due_Api}/${id}`,
         method: "GET",
       }),
     }),
-    addDues: build.mutation<product, product>({
+    addDues: build.mutation<TDues, TDues>({
       query: (data) => ({
         url: Due_Api,
         method: "POST",
@@ -48,14 +43,14 @@ const dueApi = baseApi.injectEndpoints({
         body: JSON.stringify({ dueData: data }),
       }),
     }),
-    updateDue: build.mutation<product, string>({
+    updateDue: build.mutation<TDues, string>({
       query: (id) => ({
         url: `${Due_Api}/${id}`,
         method: "POST",
         // body:data
       }),
     }),
-    deleteDue: build.mutation<product, string>({
+    deleteDue: build.mutation<TDues, string>({
       query: (id) => ({
         url: `${Due_Api}/${id}`,
         method: "DELETE",
