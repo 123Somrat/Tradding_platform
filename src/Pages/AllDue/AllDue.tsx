@@ -27,17 +27,18 @@ export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
   const [currentPage, setCurrentPage] = useState({ page: 1 });
   const [sortBy, setSortBy] = useState("expiredDate");
+  const [sortType, setSortType] = useState("asc");
   const queryParams = {
     page: currentPage.page,
     limit: 5,
     sortBy,
-    sortType: "dsc",
+    sortType,
   };
   // Fethcing all dues
   const { data } = useGetDuesQuerys(queryParams);
   const navigate = useNavigate();
   const totalPage = data?.meta?.totalPage;
-  const sortByTableData = "dsc";
+
 
   // Table rows
   const rows = data?.data?.map(
@@ -58,6 +59,13 @@ export default function AllDue() {
     navigate(`/api/va/dues/${id}`);
   };
 
+  // handleSort
+  const handleSort = (sortField: string, sortType: string) => {
+    setSortBy(sortField);
+    // setting up sortType
+    sortType === "asc" ? setSortType("dsc") : setSortType("asc");
+  };
+
   return (
     <Box>
       <Typography
@@ -75,20 +83,28 @@ export default function AllDue() {
               <StyledTableCell align="center">SellerName</StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => setSortBy("buyingPrice")}
+                onClick={() => handleSort("buyingPrice", sortType)}
               >
-                <UpwardArrowIcon
-                  className="arrow"
-                  fontSize="small"
-                  color="disabled"
-                />{" "}
+                {sortType === "asc" ? (
+                  <UpwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                ) : (
+                  <DownwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                )}
                 BuyingPrice
               </StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => setSortBy("buyingDate")}
+                onClick={() => handleSort("buyingDate", sortType)}
               >
-                {sortByTableData === "dsc" ? (
+                {sortType === "asc" ? (
                   <UpwardArrowIcon
                     className="arrow"
                     fontSize="small"
@@ -105,13 +121,21 @@ export default function AllDue() {
               </StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => setSortBy("expiredDate")}
+                onClick={() => handleSort("expiredDate", sortType)}
               >
-                <UpwardArrowIcon
-                  className="arrow"
-                  fontSize="small"
-                  color="disabled"
-                />{" "}
+                {sortType === "asc" ? (
+                  <UpwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                ) : (
+                  <DownwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                )}
                 ExpiredDate
               </StyledTableCell>
               <StyledTableCell align="center">ExpiredIn</StyledTableCell>
