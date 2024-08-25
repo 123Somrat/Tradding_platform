@@ -14,12 +14,14 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StyledTableCell, StyledTableRow } from "../../Utils/TableCellAndRowStyle";
+import {
+  StyledTableCell,
+  StyledTableRow,
+} from "../../Utils/TableCellAndRowStyle";
 import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
 
 import Status from "../../Utils/Status";
 import DayDiffernce from "../../Utils/DayDiffernce";
-
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
@@ -35,11 +37,11 @@ export default function AllDue() {
   const { data } = useGetDuesQuerys(queryParams);
   const navigate = useNavigate();
   const totalPage = data?.meta?.totalPage;
-  const sortByTableData = 'dsc'
+  const sortByTableData = "dsc";
 
   // Table rows
   const rows = data?.data?.map(
-    ({_id, buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
+    ({ _id, buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
       _id,
       buyerName,
       sellerName,
@@ -47,17 +49,14 @@ export default function AllDue() {
       buyingDate,
       expiredDate,
       expiredIn: DayDiffernce(expiredDate as Dayjs),
-      status: Status(expiredDate as Dayjs)
-    })    
+      status: Status(expiredDate as Dayjs),
+    })
   );
 
-
-
-// Navigate user to see dues details
+  // Navigate user to see dues details
   const handleNavigate = (id: string) => {
     navigate(`/api/va/dues/${id}`);
   };
-
 
   return (
     <Box>
@@ -78,7 +77,7 @@ export default function AllDue() {
                 align="center"
                 onClick={() => setSortBy("buyingPrice")}
               >
-              <UpwardArrowIcon
+                <UpwardArrowIcon
                   className="arrow"
                   fontSize="small"
                   color="disabled"
@@ -89,20 +88,26 @@ export default function AllDue() {
                 align="center"
                 onClick={() => setSortBy("buyingDate")}
               >
-               {sortByTableData==='dsc' ?<UpwardArrowIcon
-                  className="arrow"
-                  fontSize="small"
-                  color="disabled"
-                /> :<DownwardArrowIcon className="arrow"
-                fontSize="small"
-                color="disabled"/>} 
+                {sortByTableData === "dsc" ? (
+                  <UpwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                ) : (
+                  <DownwardArrowIcon
+                    className="arrow"
+                    fontSize="small"
+                    color="disabled"
+                  />
+                )}
                 BuyingDate
               </StyledTableCell>
               <StyledTableCell
                 align="center"
                 onClick={() => setSortBy("expiredDate")}
               >
-              <UpwardArrowIcon
+                <UpwardArrowIcon
                   className="arrow"
                   fontSize="small"
                   color="disabled"
@@ -150,10 +155,17 @@ export default function AllDue() {
           </TableBody>
         </Table>
       </TableContainer>
-      <span className="text-red-600">*</span>   <span> user can sorting data in <span className="text-green-800">buyingPrice</span> , <span className="text-green-800">buyingDate</span> , <span className="text-green-800">expiredDate</span> field </span>
+      <span className="text-red-600">*</span>{" "}
+      <span>
+        {" "}
+        user can sorting data in{" "}
+        <span className="text-green-800">buyingPrice</span> ,{" "}
+        <span className="text-green-800">buyingDate</span> ,{" "}
+        <span className="text-green-800">expiredDate</span> field{" "}
+      </span>
       <Pagination
         count={totalPage}
-        sx={{mt:2}}
+        sx={{ mt: 2 }}
         onChange={(_e, page) => setCurrentPage({ page: page })}
       />
     </Box>
