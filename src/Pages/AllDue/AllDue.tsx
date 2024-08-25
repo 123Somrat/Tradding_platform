@@ -4,11 +4,8 @@ import {
   Chip,
   Pagination,
   Paper,
-  styled,
   Table,
   TableBody,
-  TableCell,
-  tableCellClasses,
   TableContainer,
   TableHead,
   TableRow,
@@ -17,35 +14,9 @@ import {
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { StyledTableCell, StyledTableRow } from "../../Utils/TableCellAndRowStyle";
+import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-  [`&.${tableCellClasses.head}`]: {
-    fontSize: 14,
-    position: "relative", // Add this to position the arrow icon relative to the cell
-    cursor: "pointer",
-    "&:hover .arrow": {
-      opacity: 1, // Show the arrow icon on hover
-    },
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
@@ -61,6 +32,7 @@ export default function AllDue() {
   const { data } = useGetDuesQuerys(queryParams);
   const navigate = useNavigate();
   const totalPage = data?.meta?.totalPage;
+  const sortByTableData = 'dsc'
 
   // Table rows
   const rows = data?.data?.map(
@@ -81,11 +53,8 @@ export default function AllDue() {
   const handleNavigate = (id: string) => {
     navigate(`/api/va/dues/${id}`);
   };
-  // showing arrow icon when hover
-  const ArrowIcon = styled(ArrowUpwardIcon)(({ theme }) => ({
-    opacity: 0,
-    transition: "opacity 0.3s",
-  }));
+
+
   return (
     <Box>
       <Typography
@@ -105,7 +74,7 @@ export default function AllDue() {
                 align="center"
                 onClick={() => setSortBy("buyingPrice")}
               >
-                <ArrowIcon
+              <UpwardArrowIcon
                   className="arrow"
                   fontSize="small"
                   color="disabled"
@@ -116,18 +85,20 @@ export default function AllDue() {
                 align="center"
                 onClick={() => setSortBy("buyingDate")}
               >
-                <ArrowIcon
+               {sortByTableData==='dsc' ?<UpwardArrowIcon
                   className="arrow"
                   fontSize="small"
                   color="disabled"
-                />
+                /> :<DownwardArrowIcon className="arrow"
+                fontSize="small"
+                color="disabled"/>} 
                 BuyingDate
               </StyledTableCell>
               <StyledTableCell
                 align="center"
                 onClick={() => setSortBy("expiredDate")}
               >
-                <ArrowIcon
+              <UpwardArrowIcon
                   className="arrow"
                   fontSize="small"
                   color="disabled"
@@ -175,8 +146,10 @@ export default function AllDue() {
           </TableBody>
         </Table>
       </TableContainer>
+      <span className="text-red-600">*</span>   <span> user can sorting data in <span className="text-green-800">buyingPrice</span> , <span className="text-green-800">buyingDate</span> , <span className="text-green-800">expiredDate</span> field </span>
       <Pagination
         count={totalPage}
+        sx={{mt:2}}
         onChange={(_e, page) => setCurrentPage({ page: page })}
       />
     </Box>
