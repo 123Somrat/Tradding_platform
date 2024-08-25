@@ -11,11 +11,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledTableCell, StyledTableRow } from "../../Utils/TableCellAndRowStyle";
 import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
+import { DayDiffernce } from "../../Utils/DayDiffernce";
 
 
 export default function AllDue() {
@@ -44,7 +45,7 @@ export default function AllDue() {
       buyingPrice,
       buyingDate,
       expiredDate,
-      expiredIn: Math.round(dayjs(expiredDate).diff(dayjs(), "day", true)),
+      expiredIn: DayDiffernce(expiredDate as Dayjs),
       status:
         Math.round(dayjs(expiredDate).diff(dayjs(), "day", true)) <= 1
           ? "Expired soon"
