@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   StyledTableCell,
@@ -75,15 +75,16 @@ export default function AllDue() {
   }
 
   // Navigate user to see dues details
-  const handleNavigate = (id: string) => {
+  const handleNavigate = useCallback((id: string) => {
+    console.log('navigate called')
     navigate(`/api/va/dues/${id}`);
-  };
+  },[navigate]);
 
   // handleSort
-  const handleSort = (sortField: string, sortType: string) => {
+  const handleSort = (sortField: string) => {
     setSortBy(sortField);
     // setting up sortType
-    sortType === "asc" ? setSortType("dsc") : setSortType("asc");
+    setSortType((prevSortType) => (prevSortType === "asc" ? "dsc" : "asc"));
   };
 
   return (
@@ -105,7 +106,7 @@ export default function AllDue() {
               <StyledTableCell align="center">SellerName</StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => handleSort("buyingPrice", sortType)}
+                onClick={() => handleSort("buyingPrice")}
               >
                 {sortType === "asc" ? (
                   <UpwardArrowIcon
@@ -124,7 +125,7 @@ export default function AllDue() {
               </StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => handleSort("buyingDate", sortType)}
+                onClick={() => handleSort("buyingDate")}
               >
                 {sortType === "asc" ? (
                   <UpwardArrowIcon
@@ -143,7 +144,7 @@ export default function AllDue() {
               </StyledTableCell>
               <StyledTableCell
                 align="center"
-                onClick={() => handleSort("expiredDate", sortType)}
+                onClick={() => handleSort("expiredDate")}
               >
                 {sortType === "asc" ? (
                   <UpwardArrowIcon
@@ -166,17 +167,17 @@ export default function AllDue() {
           </TableHead>
           <TableBody>
             {rows?.map((row) => (
-              <StyledTableRow onClick={() => handleNavigate(row._id as string)}>
+              <StyledTableRow key={row._id} onClick={() => handleNavigate(row._id as string)}>
                 <StyledTableCell component="th" scope="row" sx={{ p: "25px" }}>
                   {row.buyerName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.sellerName}
                 </StyledTableCell>
-                <StyledTableCell align="center">
+                <StyledTableCell align="center" >
                   {(row.buyingPrice as number) / 100000} lakhs
                 </StyledTableCell>
-                <StyledTableCell align="center">
+                <StyledTableCell align="center" >
                   {dayjs(row.buyingDate).format("MMMM D, YYYY")}
                 </StyledTableCell>
                 <StyledTableCell align="center">

@@ -126,8 +126,8 @@ export default function DashBoard() {
           <List>
             {["Home", "Add_due", "All_Due", "Sell_record"].map(
               (text, index) => (
-                <NavLink to={`${text==='Home' ? '/dashboard' : `/dashboard/${text}`}`}>
-                  <ListItem key={text} disablePadding>
+                <NavLink to={`${text==='Home' ? '/dashboard' : `/dashboard/${text}`}`} key={index}>
+                  <ListItem  disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
