@@ -16,6 +16,8 @@ type TDues = {
   buyingPrice: number | "";
   buyingDate: dayjs.Dayjs | "";
   expiredDate: dayjs.Dayjs | "";
+  expiredIn ?: number
+  status ?:string
 };
 
 export type { IFormInput, TDues };

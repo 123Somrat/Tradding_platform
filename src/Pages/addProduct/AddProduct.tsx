@@ -86,7 +86,7 @@ export default function AddProduct() {
 
     if (result === "somrat") {
       const res = await HandleAddProduct(formInputData, addDues);
-      console.log(res);
+         console.log(res)
       reset();
     }
   };

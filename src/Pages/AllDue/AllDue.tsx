@@ -22,37 +22,57 @@ import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
 
 import Status from "../../Utils/Status";
 import DayDiffernce from "../../Utils/DayDiffernce";
+import { TDues } from "../../types/types";
+import showInfoAlert from "../../Utils/showInfoAlert";
+import Loading from "../../Utils/Loading";
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
   const [currentPage, setCurrentPage] = useState({ page: 1 });
   const [sortBy, setSortBy] = useState("expiredDate");
   const [sortType, setSortType] = useState("asc");
+  const navigate = useNavigate();
   const queryParams = {
     page: currentPage.page,
     limit: 5,
     sortBy,
     sortType,
   };
+
   // Fethcing all dues
-  const { data } = useGetDuesQuerys(queryParams);
-  const navigate = useNavigate();
+  const { data, isFetching, isError } = useGetDuesQuerys(queryParams);
+
   const totalPage = data?.meta?.totalPage;
 
-
   // Table rows
-  const rows = data?.data?.map(
-    ({ _id, buyerName, sellerName, buyingPrice, buyingDate, expiredDate }) => ({
-      _id,
-      buyerName,
-      sellerName,
-      buyingPrice,
-      buyingDate,
-      expiredDate,
-      expiredIn: DayDiffernce(expiredDate as Dayjs),
-      status: Status(expiredDate as Dayjs),
-    })
-  );
+  const rows: TDues[] =
+    data?.data?.map(
+      ({
+        _id,
+        buyerName,
+        sellerName,
+        buyingPrice,
+        buyingDate,
+        expiredDate,
+      }) => ({
+        _id,
+        buyerName,
+        sellerName,
+        buyingPrice,
+        buyingDate,
+        expiredDate,
+        expiredIn: DayDiffernce(expiredDate as Dayjs),
+        status: Status(expiredDate as Dayjs),
+      })
+    ) || [];
+
+  // showing error
+  if (isError) {
+    showInfoAlert({
+      icon: "error",
+      title: "An error occurred while fetching data",
+    });
+  }
 
   // Navigate user to see dues details
   const handleNavigate = (id: string) => {
@@ -68,6 +88,8 @@ export default function AllDue() {
 
   return (
     <Box>
+      {/* Showing a spinner if loading status is oke  */}
+      {isFetching && <Loading />}
       <Typography
         variant="h4"
         className="text-green-900 text-center"
@@ -180,12 +202,13 @@ export default function AllDue() {
         </Table>
       </TableContainer>
       <span className="text-red-600">*</span>{" "}
-      <span>
+      <span className="text-sm">
         {" "}
-        user can sorting data in{" "}
-        <span className="text-green-800">buyingPrice</span> ,{" "}
-        <span className="text-green-800">buyingDate</span> ,{" "}
-        <span className="text-green-800">expiredDate</span> field{" "}
+        user can sorting data based on{" "}
+        <span className="text-green-800">
+          buyingPrice , buyingDate , expiredDate
+        </span>{" "}
+        {"  "} field
       </span>
       <Pagination
         count={totalPage}
