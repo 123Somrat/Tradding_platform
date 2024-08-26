@@ -6,6 +6,7 @@ import AddProduct from "../Pages/addProduct/AddProduct";
 import AllDue from "../Pages/AllDue/AllDue";
 import DashboardHome from "../Components/DashboardHome";
 import Home from "../Components/Home";
+import DueDetails from "../Components/DueDetails";
 
 const router = createBrowserRouter([
   {
@@ -27,13 +28,18 @@ const router = createBrowserRouter([
          element:<DashboardHome />
       },
       {
+        path: "All_due",
+        element: <AllDue/>,
+      },
+      {
         path: "Add_due",
         element: <AddProduct />,
       },
       {
-        path: "All_due",
-        element: <AllDue/>,
-      },
+        path:'dues/:dueId',
+        element:<DueDetails />
+      }
+
     ],
   },
 ]);

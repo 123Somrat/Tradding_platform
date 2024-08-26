@@ -79,7 +79,7 @@ export default function AllDue() {
   const handleNavigate = useCallback(
     (id: string) => {
       console.log("navigate called");
-      navigate(`/api/va/dues/${id}`);
+      navigate(`/Dashboard/dues/${id}`);
     },
     [navigate]
   );
