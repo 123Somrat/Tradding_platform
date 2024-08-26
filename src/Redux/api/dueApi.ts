@@ -1,19 +1,21 @@
-
 import baseApi from "./baseApi";
 import { TResponseRedux } from "../../types/global";
 import { TDues } from "../../types/types";
-
 
 const Due_Api = "/dues";
 
 const dueApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getDues: build.query({
-      query: ({ page, limit , sortBy , sortType}) => {
-       
+      query: ({ page, limit, sortBy, sortType }) => {
         // Create the searchParams
-        const searchParams = new URLSearchParams({ page, limit , sortBy , sortType});
-         
+        const searchParams = new URLSearchParams({
+          page,
+          limit,
+          sortBy,
+          sortType,
+        });
+
         return {
           url: Due_Api,
           method: "GET",

@@ -32,6 +32,7 @@ export default function AllDue() {
   const [sortBy, setSortBy] = useState("expiredDate");
   const [sortType, setSortType] = useState("asc");
   const navigate = useNavigate();
+
   const queryParams = {
     page: currentPage.page,
     limit: 5,
@@ -75,10 +76,13 @@ export default function AllDue() {
   }
 
   // Navigate user to see dues details
-  const handleNavigate = useCallback((id: string) => {
-    console.log('navigate called')
-    navigate(`/api/va/dues/${id}`);
-  },[navigate]);
+  const handleNavigate = useCallback(
+    (id: string) => {
+      console.log("navigate called");
+      navigate(`/api/va/dues/${id}`);
+    },
+    [navigate]
+  );
 
   // handleSort
   const handleSort = (sortField: string) => {
@@ -167,17 +171,20 @@ export default function AllDue() {
           </TableHead>
           <TableBody>
             {rows?.map((row) => (
-              <StyledTableRow key={row._id} onClick={() => handleNavigate(row._id as string)}>
+              <StyledTableRow
+                key={row._id}
+                onClick={() => handleNavigate(row._id as string)}
+              >
                 <StyledTableCell component="th" scope="row" sx={{ p: "25px" }}>
                   {row.buyerName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.sellerName}
                 </StyledTableCell>
-                <StyledTableCell align="center" >
+                <StyledTableCell align="center">
                   {(row.buyingPrice as number) / 100000} lakhs
                 </StyledTableCell>
-                <StyledTableCell align="center" >
+                <StyledTableCell align="center">
                   {dayjs(row.buyingDate).format("MMMM D, YYYY")}
                 </StyledTableCell>
                 <StyledTableCell align="center">
