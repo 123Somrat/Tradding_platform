@@ -31,10 +31,15 @@ const dueApi = baseApi.injectEndpoints({
       providesTags: ["dueAdded"],
     }),
     getSingleDue: build.query<TDues, string>({
-      query: (id) => ({
-        url: `${Due_Api}/${id}`,
-        method: "GET",
-      }),
+      query: (id) => {
+        return {
+          url: `${Due_Api}/${id}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response: TResponseRedux<TDues>): TDues => {
+        return response.data as TDues;
+      },
     }),
     addDues: build.mutation<TDues, TDues>({
       query: (data) => ({
