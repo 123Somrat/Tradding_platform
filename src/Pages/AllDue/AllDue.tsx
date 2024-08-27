@@ -199,7 +199,7 @@ export default function AllDue() {
                       label={row.status}
                       size="small"
                       color={
-                        row.status === "expired soon" ? "warning" : "success"
+                        row.status === "Expired soon" ? "warning" : "success"
                       }
                     />
                   }
