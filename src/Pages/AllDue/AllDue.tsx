@@ -215,7 +215,7 @@ export default function AllDue() {
               ))}
             </TableBody>
           </Table>
-          <span className="text-red-600 inline-block mt-4">*</span>{" "}
+          <span className="text-red-600 inline-block mt-4 ml-2">*</span>{" "}
           <span className="text-sm inline-block ">
             {" "}
             user can sorting data based on{" "}
