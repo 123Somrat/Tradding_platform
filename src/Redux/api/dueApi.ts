@@ -49,7 +49,9 @@ const dueApi = baseApi.injectEndpoints({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ dueData: data }),
+      
       }),
+      invalidatesTags:['dueAdded'],
     }),
     updateDue: build.mutation<TDues, string>({
       query: (id) => ({
