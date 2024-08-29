@@ -67,6 +67,11 @@ export default function AllDue() {
       })
     ) || [];
 
+
+   
+
+
+
   // showing error
   if (isError) {
     showInfoAlert({
@@ -198,7 +203,7 @@ export default function AllDue() {
                     {dayjs(row.expiredDate).format("MMMM D, YYYY")}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.expiredIn} Days
+                    {row.expiredIn} 
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {

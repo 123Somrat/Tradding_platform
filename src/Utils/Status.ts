@@ -9,7 +9,10 @@ import DayDiffernce from "./DayDiffernce";
 const Status = (date: Dayjs): string => {
   // Call the DayDiffernce utils to calculate the dayDiffernce
   const dayDiffernce = DayDiffernce(date);
-  const status = dayDiffernce <= 1 ? "Expired soon" : "Have time";
+  const hoursOrDays = dayDiffernce.split(' ');
+   
+ // retun the status
+  const status = hoursOrDays.includes('Hours') ? "Expired soon" : "Have time";
 
   return status;
 };
