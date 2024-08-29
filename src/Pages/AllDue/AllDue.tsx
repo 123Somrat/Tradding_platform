@@ -21,10 +21,10 @@ import {
 import { DownwardArrowIcon, UpwardArrowIcon } from "../../Utils/Icons";
 
 import Status from "../../Utils/Status";
-import DayDiffernce from "../../Utils/DayDiffernce";
 import { TDues } from "../../types/types";
 import showInfoAlert from "../../Utils/showInfoAlert";
 import Loading from "../../Utils/Loading";
+import getExpirationTime from "../../Utils/DayDiffernce";
 
 export default function AllDue() {
   const useGetDuesQuerys = dueApi.endpoints.getDues.useQuery;
@@ -62,7 +62,7 @@ export default function AllDue() {
         buyingPrice,
         buyingDate,
         expiredDate,
-        expiredIn: DayDiffernce(expiredDate as Dayjs),
+        expiredIn: getExpirationTime(expiredDate as Dayjs),
         status: Status(expiredDate as Dayjs),
       })
     ) || [];
