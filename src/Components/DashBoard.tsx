@@ -124,7 +124,7 @@ export default function DashBoard() {
           </DrawerHeader>
          
           <List>
-            {["Home", "Add_due", "All_Due", "Sell_record"].map(
+            {["Home", "Add_due", "All_Due", "Sell_record" , 'Expired_Due'].map(
               (text, index) => (
                 <NavLink to={`${text==='Home' ? '/dashboard' : `/dashboard/${text}`}`} key={index}>
                   <ListItem  disablePadding>

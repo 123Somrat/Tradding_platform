@@ -7,6 +7,7 @@ import AllDue from "../Pages/AllDue/AllDue";
 import DashboardHome from "../Components/DashboardHome";
 import Home from "../Components/Home";
 import DueDetails from "../Components/DueDetails";
+import ExpiredDue from "../Components/ExpiredDue";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:'dues/:dueId',
         element:<DueDetails />
+      },
+      {
+         path:'Expired_Due',
+         element:<ExpiredDue />
       }
 
     ],
