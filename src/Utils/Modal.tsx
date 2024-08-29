@@ -107,7 +107,7 @@ export default function ModalForm({
               ""
             )}
           </FormControl>
-          <Button color="success" type="submit" disabled={isSubmitting}>
+          <Button variant="outlined" color="success" type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Checking passWord" : "Submit"}
           </Button>
         </Box>

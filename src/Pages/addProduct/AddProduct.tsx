@@ -35,11 +35,11 @@ export default function AddProduct() {
     formState: { errors, isValid, isSubmitting },
   } = useForm<IFormInput>({
     defaultValues: {
-      buyerName: "Khaja ajmir traders",
-      sellerName: "Maijbander traders",
-      buyingPrice: 5000000,
-      buyingDate: "2024-08-27",
-      expiredDate: "2024-09-07",
+      buyerName: "",
+      sellerName: "",
+      buyingPrice: undefined,
+      buyingDate: "",
+      expiredDate: "",
     },
     resolver: zodResolver(addProductSchema),
   });

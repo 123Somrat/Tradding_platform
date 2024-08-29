@@ -14,7 +14,7 @@ type TDues = {
   buyerName: string | "";
   sellerName: string | "";
   buyingPrice: number | "";
-  buyingDate: dayjs.Dayjs | "";
+  buyingDate?: dayjs.Dayjs | "";
   expiredDate: dayjs.Dayjs | "";
   expiredIn ?: string
   status ?:string

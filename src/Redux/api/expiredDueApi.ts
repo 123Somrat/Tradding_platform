@@ -5,7 +5,7 @@ import dueApi from "./dueApi";
 const expiredDue = "/expiredDues";
 const expiredDueApi = dueApi.injectEndpoints({
   endpoints: (build) => ({
-    allExpiredDues: build.query({
+    getAllExpiredDues: build.query({
       query: () => {
         return {
           url: expiredDue,
