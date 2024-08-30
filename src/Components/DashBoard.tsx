@@ -15,12 +15,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { NavLink } from "react-router-dom";
-
+import HomeIcon from '@mui/icons-material/Home';
+import AddIcon from '@mui/icons-material/Add';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import SellIcon from '@mui/icons-material/Sell';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 const drawerWidth = 240;
-
+const Icons = [ <HomeIcon/> , <AddIcon/> , <DoneOutlineIcon/> , <SellIcon/> , <AssignmentLateIcon/>]
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
@@ -128,9 +130,9 @@ export default function DashBoard() {
               (text, index) => (
                 <NavLink to={`${text==='Home' ? '/dashboard' : `/dashboard/${text}`}`} key={index}>
                   <ListItem  disablePadding>
-                    <ListItemButton>
+                    <ListItemButton >
                       <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        {Icons[index]}
                       </ListItemIcon>
                       <ListItemText primary={text} />
                     </ListItemButton>
