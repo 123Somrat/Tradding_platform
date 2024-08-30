@@ -48,7 +48,7 @@ export default function ExpiredDue() {
               <StyledTableCell align="left">SellerName</StyledTableCell>
               <StyledTableCell align="left">BuyingPrice</StyledTableCell>
               <StyledTableCell align="left">ExpiredDate</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           {rows.length === 0 ? (
@@ -63,9 +63,10 @@ export default function ExpiredDue() {
                   <StyledTableCell align="left">
                     {dayjs(due.expiredDate).format("YYYY-MM-DD")}
                   </StyledTableCell>
-                  <StyledTableCell align="left">
+                  <StyledTableCell align="center">
                     {" "}
-                    <Button variant="outlined" color="error">Sell</Button>
+                    <Button variant="outlined" color="error" sx={{mr:2}}>Sell</Button>
+                    <Button variant="outlined" color="success">Update</Button>
                   </StyledTableCell>
                 </TableRow>
               ))}
