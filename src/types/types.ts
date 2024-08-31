@@ -20,4 +20,16 @@ type TDues = {
   status ?:string
 };
 
-export type { IFormInput, TDues };
+type TSellPrice = {
+  sellPrice:string
+}
+
+
+
+
+type TShowModalProps = {
+     modalShow : boolean,
+     setterFunction: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type { IFormInput, TDues , TSellPrice , TShowModalProps };

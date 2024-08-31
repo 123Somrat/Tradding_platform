@@ -7,44 +7,43 @@ import AllDue from "../Pages/AllDue/AllDue";
 import DashboardHome from "../Components/DashboardHome";
 import Home from "../Components/Home";
 import DueDetails from "../Components/DueDetails";
-import ExpiredDue from "../Components/ExpiredDue";
+import ExpiredDue from "../Components/expiredDues/ExpiredDue";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts />,
-    children:[
+    children: [
       {
-        path:'/',
-        element:<Home/>
-    }
-  ]
+        path: "/",
+        element: <Home />,
+      },
+    ],
   },
   {
     path: "dashboard",
     element: <DashboardLayouts />,
     children: [
       {
-         index:true,
-         element:<DashboardHome />
+        index: true,
+        element: <DashboardHome />,
       },
       {
         path: "All_due",
-        element: <AllDue/>,
+        element: <AllDue />,
       },
       {
         path: "Add_due",
         element: <AddProduct />,
       },
       {
-        path:'dues/:dueId',
-        element:<DueDetails />
+        path: "dues/:dueId",
+        element: <DueDetails />,
       },
       {
-         path:'Expired_Due',
-         element:<ExpiredDue />
-      }
-
+        path: "Expired_Due",
+        element: <ExpiredDue />,
+      },
     ],
   },
 ]);

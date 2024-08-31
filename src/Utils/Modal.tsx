@@ -82,7 +82,7 @@ export default function ModalForm({
             fullWidth
           >
             <InputLabel
-              htmlFor="buyerName"
+              htmlFor="tradingPassword"
               color="success"
               error={!!errors.tradingPassWord}
             >
