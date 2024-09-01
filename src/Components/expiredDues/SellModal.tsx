@@ -9,8 +9,15 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import expiredDueApi from "../../Redux/api/expiredDueApi";
 
-const SellModal = ({ modalShow , setterFunction }: TShowModalProps) => {
+const SellModal = ({ selectedProductId ,modalShow , setterFunction }: TShowModalProps) => {
+
+    const useUpdateExpiredDueSellingPriceMutation = expiredDueApi.endpoints.updateExpiredDueSellingPrice.useMutation;
+     const  [updateExpiredDueSellingPrice]  = useUpdateExpiredDueSellingPriceMutation()
+
+
+   
   const {
     handleSubmit,
     control,
@@ -20,9 +27,13 @@ const SellModal = ({ modalShow , setterFunction }: TShowModalProps) => {
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
-  const Submit: SubmitHandler<TSellPrice> = (data: TSellPrice) => {
-    console.log(data);
+  const Submit: SubmitHandler<TSellPrice> = (data: TSellPrice) =>{
 
+       // Gathering Data
+       const sellingPrice = data.sellPrice;
+       const info = updateExpiredDueSellingPrice({id:selectedProductId,sellingPrice:sellingPrice})
+
+      console.log(info)
     reset();
   };
 

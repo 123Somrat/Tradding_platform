@@ -28,6 +28,7 @@ type TSellPrice = {
 
 
 type TShowModalProps = {
+     selectedProductId:string,
      modalShow : boolean,
      setterFunction: React.Dispatch<React.SetStateAction<boolean>>;
 }

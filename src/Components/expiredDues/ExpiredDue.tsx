@@ -51,7 +51,7 @@ export default function ExpiredDue() {
       </Typography>
       <Divider></Divider>
 
-      {showsellModal && <SellModal modalShow={showsellModal} setterFunction={setShowSellModal}/>}
+      {showsellModal && <SellModal modalShow={showsellModal} setterFunction={setShowSellModal} selectedProductId={selectedProduct}/>}
 
       <TableContainer>
         <Table>

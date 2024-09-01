@@ -48,7 +48,7 @@ const dueApi = baseApi.injectEndpoints({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ dueData: data }),
+        body: JSON.stringify({ data: data }),
       }),
       invalidatesTags: ["dueAdded"],
     }),
