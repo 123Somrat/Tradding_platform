@@ -24,7 +24,7 @@ export default function ExpiredDue() {
   // Fetch expired data
   const { data } = useGetAllExpiredDuesQuerys({});
 
-   console.log(selectedProduct)
+  
   // Construct Data from showing in row
   const rows: TDues[] = (data?.data ?? []).map(
     ({ _id, buyerName, sellerName, buyingPrice, expiredDate }) => {

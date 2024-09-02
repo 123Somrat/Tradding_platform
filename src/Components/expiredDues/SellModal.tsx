@@ -33,7 +33,7 @@ const SellModal = ({ selectedProductId ,modalShow , setterFunction }: TShowModal
        const sellingPrice = data.sellPrice;
        const info = updateExpiredDueSellingPrice({id:selectedProductId,sellingPrice:sellingPrice})
 
-      console.log(info)
+      
     reset();
   };
 

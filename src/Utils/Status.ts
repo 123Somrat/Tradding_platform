@@ -11,8 +11,9 @@ const Status = (date: Dayjs): string => {
   const dayDiffernce = DayDiffernce(date);
   const hoursOrDays = dayDiffernce.split(' ');
    
+
  // retun the status
-  const status = hoursOrDays.includes('Hours') ? "Expired soon" : "Have time";
+  const status = hoursOrDays.includes('Hour') ? "Expired soon" : "Have time";
 
   return status;
 };
