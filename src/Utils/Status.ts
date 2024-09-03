@@ -4,7 +4,7 @@ import DayDiffernce from "./DayDiffernce";
 /**
  *
  * @param date
- * @returns status
+ * @returns status dependes on day , hours , minutes
  */
 const Status = (date: Dayjs): string => {
   // Call the DayDiffernce utils to calculate the dayDiffernce
@@ -12,8 +12,8 @@ const Status = (date: Dayjs): string => {
   const hoursOrDays = dayDiffernce.split(' ');
    
 
- // retun the status
-  const status = hoursOrDays.includes('Hour') ? "Expired soon" : "Have time";
+ // retun the status dependes on day hours minutes
+  const status = hoursOrDays.includes('Hours' || 'minutes') ? "Expired soon" : "Have time";
 
   return status;
 };
