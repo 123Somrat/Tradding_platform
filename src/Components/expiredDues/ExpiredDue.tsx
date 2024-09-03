@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 import SellModal from "./SellModal";
+import Swal from "sweetalert2";
 
 export default function ExpiredDue() {
   const [showsellModal, setShowSellModal] = useState(false);
@@ -40,8 +41,29 @@ export default function ExpiredDue() {
 
   // Modal open and close
   const showSellModal = (id: string) => {
-    setSelectedProduct(id);
-    setShowSellModal(true);
+
+
+    // showing a alert user want to sell or not
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, sell it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        setSelectedProduct(id);
+        setShowSellModal(true);
+       
+      }
+    });
+
+
+
+   
   };
 
   return (

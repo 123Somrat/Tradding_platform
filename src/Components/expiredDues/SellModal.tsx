@@ -10,14 +10,19 @@ import {
   Typography,
 } from "@mui/material";
 import expiredDueApi from "../../Redux/api/expiredDueApi";
+import Swal from "sweetalert2";
+import showInfoAlert from "../../Utils/showInfoAlert";
 
-const SellModal = ({ selectedProductId ,modalShow , setterFunction }: TShowModalProps) => {
+const SellModal = ({
+  selectedProductId,
+  modalShow,
+  setterFunction,
+}: TShowModalProps) => {
+  const useUpdateExpiredDueSellingPriceMutation =
+    expiredDueApi.endpoints.updateExpiredDueSellingPrice.useMutation;
+  const [updateExpiredDueSellingPrice] =
+    useUpdateExpiredDueSellingPriceMutation();
 
-    const useUpdateExpiredDueSellingPriceMutation = expiredDueApi.endpoints.updateExpiredDueSellingPrice.useMutation;
-     const  [updateExpiredDueSellingPrice]  = useUpdateExpiredDueSellingPriceMutation()
-
-
-   
   const {
     handleSubmit,
     control,
@@ -27,22 +32,31 @@ const SellModal = ({ selectedProductId ,modalShow , setterFunction }: TShowModal
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
-  const Submit: SubmitHandler<TSellPrice> = (data: TSellPrice) =>{
+  const Submit: SubmitHandler<TSellPrice> = async (data: TSellPrice) => {
+    // Gathering Data
+    const sellingPrice = data.sellPrice;
+    const info = updateExpiredDueSellingPrice({
+      id: selectedProductId,
+      sellingPrice: sellingPrice,
+    });
+    console.log(info)
+    // hide the modal
+    setterFunction(false);
+  
+    // show succes alert
+    Swal.fire({
+      title: "Sold!",
+      text: "Your due has been sold.",
+      icon: "success"
+    });
 
-       // Gathering Data
-       const sellingPrice = data.sellPrice;
-       const info = updateExpiredDueSellingPrice({id:selectedProductId,sellingPrice:sellingPrice})
 
-      console.log(info)
     reset();
   };
 
- const closeModal = ()=>{
-    setterFunction(false)
- }
-
-
-
+  const closeModal = () => {
+    setterFunction(false);
+  };
 
   return (
     <Modal
@@ -102,10 +116,22 @@ const SellModal = ({ selectedProductId ,modalShow , setterFunction }: TShowModal
             )}
 */}
           </FormControl>
-          <Button variant="outlined" color="success" type="submit" sx={{mr:2}}>
+          <Button
+            variant="outlined"
+            color="success"
+            type="submit"
+            sx={{ mr: 2 }}
+          >
             Sell
           </Button>
-          <Button variant="outlined" color="warning" className="block ml-2" onClick={closeModal}>Close</Button>
+          <Button
+            variant="outlined"
+            color="warning"
+            className="block ml-2"
+            onClick={closeModal}
+          >
+            Close
+          </Button>
         </Box>
       </Box>
     </Modal>
