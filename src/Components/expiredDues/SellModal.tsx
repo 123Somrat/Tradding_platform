@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import expiredDueApi from "../../Redux/api/expiredDueApi";
 import Swal from "sweetalert2";
-import showInfoAlert from "../../Utils/showInfoAlert";
+
 
 const SellModal = ({
   selectedProductId,

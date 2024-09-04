@@ -25,7 +25,6 @@ export default function ExpiredDue() {
   // Fetch expired data
   const { data } = useGetAllExpiredDuesQuerys({});
 
-  
   // Construct Data from showing in row
   const rows: TDues[] = (data?.data ?? []).map(
     ({ _id, buyerName, sellerName, buyingPrice, expiredDate }) => {
@@ -41,29 +40,21 @@ export default function ExpiredDue() {
 
   // Modal open and close
   const showSellModal = (id: string) => {
-
-
     // showing a alert user want to sell or not
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You want to sell this due!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, sell it!"
+      confirmButtonText: "Yes, sell it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        
         setSelectedProduct(id);
         setShowSellModal(true);
-       
       }
     });
-
-
-
-   
   };
 
   return (
@@ -73,7 +64,13 @@ export default function ExpiredDue() {
       </Typography>
       <Divider></Divider>
 
-      {showsellModal && <SellModal modalShow={showsellModal} setterFunction={setShowSellModal} selectedProductId={selectedProduct}/>}
+      {showsellModal && (
+        <SellModal
+          modalShow={showsellModal}
+          setterFunction={setShowSellModal}
+          selectedProductId={selectedProduct}
+        />
+      )}
 
       <TableContainer>
         <Table>
@@ -99,7 +96,7 @@ export default function ExpiredDue() {
                     {due.sellerName}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {due.buyingPrice as number/100000} lakhs
+                    {(due.buyingPrice as number) / 100000} lakhs
                   </StyledTableCell>
                   <StyledTableCell align="left">
                     {dayjs(due.expiredDate).format("MMMM D, YYYY")}

@@ -18,8 +18,10 @@ const getExpirationTime = (date: Dayjs): string => {
   // Determine if the difference should be displayed in hours or days
   if (dayDifference <= 1) {
     const hoursRemaining = Math.round(Math.abs(hourDifference));
-    if(hourDifference<1){
-        return `${minuteDifference} minutes`
+    const minutesRemainig = Math.round(Math.abs(minuteDifference))
+    if(hoursRemaining<=1){
+        console.log(minuteDifference)
+        return `${minutesRemainig} minutes`
     }
     return `${hoursRemaining} Hours`;
   }
