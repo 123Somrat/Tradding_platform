@@ -10,3 +10,8 @@ a.active{
 .customWidth{
     width: 200px;
 }
+
+link[rel="icon"] {
+    width: 70px;
+    height: 50px;
+}
