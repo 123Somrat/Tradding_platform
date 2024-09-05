@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
 import { Link } from "@mui/material";
+import Notifications from "./Notifications";
 
 const pages = ["Home", "About", "Contact", "dashboard"];
 const settings = ["Profile", "Account", "dashboard", "Logout"];
@@ -123,7 +124,7 @@ export default function NavBar() {
           >
             Khaja Ajmir Traders
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} >
             {pages.map((page) => (
               <NavLink
                 to={`${page === "Home" ? "/" : page}`}
@@ -151,7 +152,7 @@ export default function NavBar() {
               </NavLink>
             ))}
           </Box>
-
+          <Notifications />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -179,7 +180,9 @@ export default function NavBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              
             </Menu>
+           
           </Box>
         </Toolbar>
       </Container>

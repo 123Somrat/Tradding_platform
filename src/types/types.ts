@@ -22,6 +22,7 @@ type TDues = {
 
 type TSellPrice = {
   sellPrice:string
+  sellingDate:string
 }
 
 

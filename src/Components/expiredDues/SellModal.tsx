@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import expiredDueApi from "../../Redux/api/expiredDueApi";
 import Swal from "sweetalert2";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 
 const SellModal = ({
@@ -28,7 +30,7 @@ const SellModal = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TSellPrice>({ defaultValues: { sellPrice: "" } });
+  } = useForm<TSellPrice>({ defaultValues: { sellPrice: "" ,sellingDate:''} });
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
@@ -108,6 +110,45 @@ const SellModal = ({
                 />
               )}
             />
+             <FormControl
+                color="success"
+                error={!!errors.sellingDate}
+                fullWidth
+              >
+                <InputLabel
+                  htmlFor="buyingDate"
+                  color="success"
+                  error={!!errors.sellingDate}
+                ></InputLabel>
+                <Controller
+                  name="sellingDate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      label="Buying Date"
+                      disablePast
+                      formatDensity="spacious"
+                      disableHighlightToday
+                      displayWeekNumber
+                      value={dayjs(field.value)}
+                      onChange={(date) =>
+                        field.onChange(date?.format("YYYY-MM-DD"))
+                      }
+                      className="mb-2"
+                     
+                      slotProps={{
+                        openPickerIcon: { fontSize: "medium" },
+                        openPickerButton: { color: "success" },
+
+                        textField: {
+                          focused: true,
+                          color: "success",
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </FormControl>
             {/*   
             {sellPrice ? (
               <span className="text-red-600">{sellPrice}</span>
