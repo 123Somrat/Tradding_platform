@@ -34,14 +34,17 @@ const SellModal = ({
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
-  const Submit: SubmitHandler<TSellPrice> = async (data: TSellPrice) => {
+  const Submit: SubmitHandler<TSellPrice> = async (paylode: TSellPrice) => {
     // Gathering Data
-    const sellingPrice = data.sellPrice;
-    const info = updateExpiredDueSellingPrice({
+    const sellingPrice = paylode.sellPrice;
+    const sellingDate = paylode.sellingDate;
+    
+    const data = updateExpiredDueSellingPrice({
       id: selectedProductId,
       sellingPrice: sellingPrice,
+      sellingDate:sellingDate
     });
-    console.log(info)
+    console.log(data)
     // hide the modal
     setterFunction(false);
   
@@ -70,7 +73,7 @@ const SellModal = ({
       <Box
         sx={{
           width: { sm: "w-full", md: "500px" },
-          height: "220px",
+          height: "320px",
           backgroundColor: "white",
           transform: "translate(-50%, -50%)",
           position: "absolute",
@@ -86,9 +89,25 @@ const SellModal = ({
           m={2}
           className="text-center text-green-800 "
         >
-          Enter your selling price
+          Enter your selling price and selling date
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(Submit)} p={2}>
+        <Box component="form" onSubmit={handleSubmit(Submit)} p={2} sx={{
+            "& .MuiTextField-root": {
+              mb: 2,
+              width: "auto",
+              borderBottom: "1px solid grey",
+              "&:focus-within": {
+                borderBottomColor: "green", // Change border color on focus
+              },
+            },
+            "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+              border: "none",
+              margin: "0px",
+            },
+            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+              marginBottom: "9px",
+            },
+          }}>
           <FormControl color="success" error={!!errors.sellPrice} fullWidth>
             <InputLabel
               htmlFor="sellPrice"
@@ -116,7 +135,7 @@ const SellModal = ({
                 fullWidth
               >
                 <InputLabel
-                  htmlFor="buyingDate"
+                  htmlFor="sellingDate"
                   color="success"
                   error={!!errors.sellingDate}
                 ></InputLabel>
@@ -125,7 +144,7 @@ const SellModal = ({
                   control={control}
                   render={({ field }) => (
                     <DatePicker
-                      label="Buying Date"
+                      label="Selling Date"
                       disablePast
                       formatDensity="spacious"
                       disableHighlightToday

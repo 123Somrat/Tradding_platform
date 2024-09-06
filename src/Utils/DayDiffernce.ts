@@ -15,7 +15,7 @@ const getExpirationTime = (date: Dayjs): string => {
   const dayDifference = dayjs(date).diff(now, 'day', true);
   const hourDifference = dayjs(date).diff(now, 'hour', true);
   const minuteDifference = dayjs(date).diff(now,"minute",true)
-   console.log('day differnce',dayDifference,hourDifference)
+   
   // Determine if the difference should be displayed in hours or days
   if (dayDifference <= 1) {
       

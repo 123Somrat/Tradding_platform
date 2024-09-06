@@ -20,16 +20,22 @@ const expiredDueApi = dueApi.injectEndpoints({
       },
     }),
     updateExpiredDueSellingPrice: build.mutation({
-      query: ({ id, sellingPrice }) => {
-       const soldOutPrice = {sellingPrice:sellingPrice};
-       
+      query: ({ id, sellingPrice , sellingDate}) => {
+       const soldOutPriceAndDate = {sellingPrice:sellingPrice,sellingDate:sellingDate};
+        
         return {
           url: `${expiredDue}/${id}`,
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body:{data:soldOutPrice}
+          body:{data:soldOutPriceAndDate}
+        };
+      },
+      transformResponse: (response: TResponseRedux<TDues>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
         };
       },
     }),
