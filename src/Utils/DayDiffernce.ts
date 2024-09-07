@@ -9,7 +9,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 const getExpirationTime = (date: Dayjs): string => {
   const now = dayjs().format("YYYY-MM-DD");
-
+ 
    
   // Calculate the difference in days and hours
   const dayDifference = dayjs(date).diff(now, 'day', true);
