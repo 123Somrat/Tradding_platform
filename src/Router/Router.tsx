@@ -8,6 +8,7 @@ import DashboardHome from "../Components/DashboardHome";
 import Home from "../Components/Home";
 import DueDetails from "../Components/DueDetails";
 import ExpiredDue from "../Components/expiredDues/ExpiredDue";
+import SellRecords from "../Components/SellRecords";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
         path: "Expired_Due",
         element: <ExpiredDue />,
       },
+      {
+        path:'Sell_Record',
+        element :<SellRecords />
+      }
     ],
   },
 ]);
