@@ -12,6 +12,7 @@ const expiredDueApi = dueApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags:['expiredDues'],
       transformResponse: (response: TResponseRedux<TDues[]>) => {
         return {
           data: response.data,
@@ -40,7 +41,9 @@ const expiredDueApi = dueApi.injectEndpoints({
           url: `${expiredDue}/${id}`,
           method: "DELETE",
         };
+        
       },
+      invalidatesTags:["expiredDues"]
     }),
   }),
 });

@@ -27,7 +27,7 @@ const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: customBaseQuery,
   endpoints: () => ({}),
-  tagTypes: ["dueAdded"],
+  tagTypes: ["dueAdded","expiredDues"],
 });
 
 export default baseApi;
