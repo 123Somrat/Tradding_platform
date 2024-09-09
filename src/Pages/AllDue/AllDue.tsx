@@ -43,6 +43,8 @@ export default function AllDue() {
   // Fethcing all dues
   const { data, isFetching, isError } = useGetDuesQuerys(queryParams);
 
+   
+
   const totalPage = data?.meta?.totalPage;
 
   // Table rows
