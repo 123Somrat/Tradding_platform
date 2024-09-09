@@ -21,12 +21,11 @@ type TDues = {
 };
 
 type TSellPrice = {
-  sellPrice:string
+  sellingPrice:string
   sellingDate:string
 }
 
-
-
+type TSellRecords = IFormInput & TSellPrice;
 
 type TShowModalProps = {
      selectedProductId:string,
@@ -34,4 +33,4 @@ type TShowModalProps = {
      setterFunction: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { IFormInput, TDues , TSellPrice , TShowModalProps };
+export type { IFormInput, TDues , TSellPrice  , TShowModalProps , TSellRecords};

@@ -30,13 +30,13 @@ const SellModal = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TSellPrice>({ defaultValues: { sellPrice: "" ,sellingDate:''} });
+  } = useForm<TSellPrice>({ defaultValues: { sellingPrice: "" ,sellingDate:''} });
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
   const Submit: SubmitHandler<TSellPrice> = async (paylode: TSellPrice) => {
     // Gathering Data
-    const sellingPrice = paylode.sellPrice;
+    const sellingPrice = paylode.sellingPrice;
     const sellingDate = paylode.sellingDate;
     
     const data = updateExpiredDueSellingPrice({
@@ -44,7 +44,7 @@ const SellModal = ({
       sellingPrice: sellingPrice,
       sellingDate:sellingDate
     });
-    console.log(data)
+   console.log(data)
     // hide the modal
     setterFunction(false);
   
@@ -108,16 +108,16 @@ const SellModal = ({
               marginBottom: "9px",
             },
           }}>
-          <FormControl color="success" error={!!errors.sellPrice} fullWidth>
+          <FormControl color="success" error={!!errors.sellingPrice} fullWidth>
             <InputLabel
               htmlFor="sellPrice"
               color="success"
-              error={!!errors.sellPrice}
+              error={!!errors.sellingPrice}
             >
               SellingPrice
             </InputLabel>
             <Controller
-              name="sellPrice"
+              name="sellingPrice"
               control={control}
               render={({ field }) => (
                 <Input
