@@ -17,12 +17,13 @@ export default function SellRecords() {
   const { data, isError, isFetching } = useGetAllSellRecordsQuery({});
 
   const row =
-    data?.data?.map(({ buyerName, sellerName, buyingPrice, sellingPrice }) => {
+    data?.data?.map(({ buyerName, sellerName,buyingPrice, sellingPrice }) => {
       return {
         buyerName: buyerName,
         sellerName: sellerName,
         buyingPrice: buyingPrice,
         sellingPrice: sellingPrice,
+        profit: ((Number(sellingPrice) - Number(buyingPrice))/100000).toLocaleString(),
       };
     }) || [];
 
@@ -34,10 +35,9 @@ export default function SellRecords() {
     });
   }
 
-
   // LOading
   if (isFetching) {
-    return  <Loading />;
+    return <Loading />;
   }
 
   return (
@@ -53,6 +53,7 @@ export default function SellRecords() {
               <StyledTableCell align="left">SellerName</StyledTableCell>
               <StyledTableCell align="left">BuyingPrice</StyledTableCell>
               <StyledTableCell align="left">SellingPrice</StyledTableCell>
+              <StyledTableCell align="left">Profit</StyledTableCell>
             </TableRow>
           </TableHead>
           {row.length === 0 ? (
@@ -61,7 +62,7 @@ export default function SellRecords() {
             <TableBody>
               {row.map(
                 (
-                  { buyerName, sellerName, buyingPrice, sellingPrice },
+                  { buyerName, sellerName, buyingPrice, sellingPrice, profit },
                   index
                 ) => (
                   <TableRow key={index}>
@@ -69,6 +70,7 @@ export default function SellRecords() {
                     <StyledTableCell>{sellerName}</StyledTableCell>
                     <StyledTableCell>{buyingPrice}</StyledTableCell>
                     <StyledTableCell>{sellingPrice}</StyledTableCell>
+                    <StyledTableCell>{profit} lakhs</StyledTableCell>
                   </TableRow>
                 )
               )}

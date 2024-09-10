@@ -15,6 +15,7 @@ import { NavLink } from "react-router-dom";
 import { Link } from "@mui/material";
 import Notifications from "./Notifications";
 
+
 const pages = ["Home", "About", "Contact", "dashboard"];
 const settings = ["Profile", "Account", "dashboard", "Logout"];
 
@@ -40,6 +41,11 @@ export default function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+   
+
+
 
   return (
     <AppBar position="static" color="inherit" sx={{ boxShadow: "none" }}>
