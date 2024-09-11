@@ -15,7 +15,7 @@ export default function SellRecords() {
   const useGetAllSellRecordsQuery =
     sellRecordApi.endpoints.getAllSellRecords.useQuery;
   const { data, isError, isFetching } = useGetAllSellRecordsQuery({});
-
+   
   const row =
     data?.data?.map(({ buyerName, sellerName,buyingPrice, sellingPrice }) => {
       return {
