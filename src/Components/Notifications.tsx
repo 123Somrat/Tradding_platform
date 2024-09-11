@@ -12,6 +12,9 @@ export default function Notifications() {
     setShowNotification(!shownotification);
   };
 
+
+
+  // web socket notification listener event
   useEffect(() => {
     socket.on("expiredDueNotifications", (data) => {
       setNotifications(data);
@@ -20,6 +23,7 @@ export default function Notifications() {
 
     return () => {
       socket.off("expiredDueNotifications");
+
     };
   }, []);
 
