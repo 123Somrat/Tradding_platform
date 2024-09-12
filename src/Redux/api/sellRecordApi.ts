@@ -5,21 +5,23 @@ import baseApi from "./baseApi";
 const sellRecordApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllSellRecords: build.query({
-      query: () => {
+      query: (searchBy) => {
+        const searchParams = new URLSearchParams(searchBy);
+       
         return {
-           url : '/sellRecords',
-           method : 'GET'
+          url: "/sellRecords",
+          method: "GET",
+          params: searchParams 
         };
       },
-      transformResponse:(response:TResponseRedux<TSellRecords[]>)=> {
-           return {
-              data:response.data,
-              meta : response.meta
-           }
+      transformResponse: (response: TResponseRedux<TSellRecords[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
       },
     }),
   }),
 });
 
-
-export default sellRecordApi
+export default sellRecordApi;
