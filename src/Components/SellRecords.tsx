@@ -1,8 +1,10 @@
 import {
   Box,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
   Table,
   TableBody,
@@ -18,11 +20,11 @@ import Loading from "../Utils/Loading";
 import dayjs from "dayjs";
 import { useState } from "react";
 
-
 export default function SellRecords() {
   // imported Redux query hooks for fetching data
   const useGetAllSellRecordsQuery =
     sellRecordApi.endpoints.getAllSellRecords.useQuery;
+  const [currentPage, setSelectedPage] = useState({ page: 1 });
   const months = [
     "",
     "January",
@@ -48,12 +50,14 @@ export default function SellRecords() {
 
   // Query params for searching by month
   const queryParams = {
+    page: currentPage.page,
     searchBy: selectedMonth,
   };
 
   // Fetching data
   const { data, isError, isFetching } = useGetAllSellRecordsQuery(queryParams);
-
+  const totalIteams = data?.meta?.totalPage;
+  console.log(data);
   // CReate array for display month in option
   const month = new Array(currentmonths + 1).fill(0);
 
@@ -87,10 +91,10 @@ export default function SellRecords() {
     return <Loading />;
   }
 
-  console.log(selectedMonth, queryParams);
+  console.log("selectedPage", queryParams);
 
   return (
-    <div>
+    <Box>
       <div className="flex justify-around items-center ">
         <div></div>
         <Typography variant="h6" align="center" className="text-green-900">
@@ -179,7 +183,14 @@ export default function SellRecords() {
             </TableBody>
           )}
         </Table>
+       { data?.data?.length as number > 0 && <><Pagination
+          count={totalIteams}
+          sx={{ m: 2 }}
+          page={currentPage.page}
+          onChange={(_e, page) => setSelectedPage({ page: page })}
+        />
+        <Divider></Divider></>} 
       </TableContainer>
-    </div>
+    </Box>
   );
 }
