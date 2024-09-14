@@ -33,7 +33,13 @@ const expiredDueApi = dueApi.injectEndpoints({
           body:{data:soldOutPriceAndDate}
         };
       },
-     
+      invalidatesTags:['expiredDues'],
+      transformResponse: (response: TResponseRedux<TDues[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
     deleteADue: build.mutation({
       query: (id) => {

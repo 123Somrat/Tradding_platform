@@ -14,7 +14,6 @@ import Swal from "sweetalert2";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-
 const SellModal = ({
   selectedProductId,
   modalShow,
@@ -30,7 +29,9 @@ const SellModal = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TSellPrice>({ defaultValues: { sellingPrice: "" ,sellingDate:''} });
+  } = useForm<TSellPrice>({
+    defaultValues: { sellingPrice: "", sellingDate: "" },
+  });
 
   //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
 
@@ -38,23 +39,24 @@ const SellModal = ({
     // Gathering Data
     const sellingPrice = paylode.sellingPrice;
     const sellingDate = paylode.sellingDate;
-    
-    const data = updateExpiredDueSellingPrice({
+
+    const data = await updateExpiredDueSellingPrice({
       id: selectedProductId,
       sellingPrice: sellingPrice,
-      sellingDate:sellingDate
-    });
-   console.log(data)
-    // hide the modal
-    setterFunction(false);
-  
-    // show succes alert
-    Swal.fire({
-      title: "Sold!",
-      text: "Your due has been sold.",
-      icon: "success"
+      sellingDate: sellingDate,
     });
 
+    // hide the modal
+    setterFunction(false);
+
+    // show succes alert
+    if (data.data) {
+      Swal.fire({
+        title: "Sold!",
+        text: "Your due has been sold.",
+        icon: "success",
+      });
+    }
 
     reset();
   };
@@ -91,7 +93,11 @@ const SellModal = ({
         >
           Enter your selling price and selling date
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(Submit)} p={2} sx={{
+        <Box
+          component="form"
+          onSubmit={handleSubmit(Submit)}
+          p={2}
+          sx={{
             "& .MuiTextField-root": {
               mb: 2,
               width: "auto",
@@ -107,7 +113,8 @@ const SellModal = ({
             "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
               marginBottom: "9px",
             },
-          }}>
+          }}
+        >
           <FormControl color="success" error={!!errors.sellingPrice} fullWidth>
             <InputLabel
               htmlFor="sellPrice"
@@ -129,45 +136,40 @@ const SellModal = ({
                 />
               )}
             />
-             <FormControl
+            <FormControl color="success" error={!!errors.sellingDate} fullWidth>
+              <InputLabel
+                htmlFor="sellingDate"
                 color="success"
                 error={!!errors.sellingDate}
-                fullWidth
-              >
-                <InputLabel
-                  htmlFor="sellingDate"
-                  color="success"
-                  error={!!errors.sellingDate}
-                ></InputLabel>
-                <Controller
-                  name="sellingDate"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      label="Selling Date"
-                      disablePast
-                      formatDensity="spacious"
-                      disableHighlightToday
-                      displayWeekNumber
-                      value={dayjs(field.value)}
-                      onChange={(date) =>
-                        field.onChange(date?.format("YYYY-MM-DD"))
-                      }
-                      className="mb-2"
-                     
-                      slotProps={{
-                        openPickerIcon: { fontSize: "medium" },
-                        openPickerButton: { color: "success" },
+              ></InputLabel>
+              <Controller
+                name="sellingDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    label="Selling Date"
+                    disablePast
+                    formatDensity="spacious"
+                    disableHighlightToday
+                    displayWeekNumber
+                    value={dayjs(field.value)}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                    className="mb-2"
+                    slotProps={{
+                      openPickerIcon: { fontSize: "medium" },
+                      openPickerButton: { color: "success" },
 
-                        textField: {
-                          focused: true,
-                          color: "success",
-                        },
-                      }}
-                    />
-                  )}
-                />
-              </FormControl>
+                      textField: {
+                        focused: true,
+                        color: "success",
+                      },
+                    }}
+                  />
+                )}
+              />
+            </FormControl>
             {/*   
             {sellPrice ? (
               <span className="text-red-600">{sellPrice}</span>
