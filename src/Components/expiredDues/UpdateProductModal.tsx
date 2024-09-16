@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  Input,
   InputLabel,
   Modal,
   Typography,
@@ -10,20 +11,32 @@ import { TShowModalProps } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import expiredDueApi from "../../Redux/api/expiredDueApi";
+import showInfoAlert from "../../Utils/showInfoAlert";
 
 export default function UpdateProductModal({ selectedProductId, modalShow, setterFunction,}: TShowModalProps) {
-
-  const { handleSubmit, control, formState: { errors },reset,} = useForm<{ expiredDate: string }>({
+    const useUpdateExpiredDueDate = expiredDueApi.endpoints.updateExpiredDueDate.useMutation;
+    const [updateExpiredDueDate] = useUpdateExpiredDueDate();
+  const { handleSubmit, control, formState: { errors },reset,} = useForm<{buyingPrice:string, expiredDate: string }>({
      defaultValues: {
+      buyingPrice:'',
       expiredDate: "",
     },
   });
-
+     
   // Submit handeler
-  const Submit = (FormInputDate: { expiredDate: string }) => {
-    console.log(FormInputDate);
-    console.log(selectedProductId)
-    setterFunction(false);
+  const Submit =async ({buyingPrice , expiredDate}: {buyingPrice:string, expiredDate: string }) => {
+
+   const data = await updateExpiredDueDate({haveToUpdateProductId:selectedProductId,updatedBuyingPrice:buyingPrice,updatedExpiredDate:expiredDate})
+     
+
+   // Showing alert and close modal if data updated succesfully
+  if(data.data){
+     showInfoAlert({icon:"success",title:'Due updated succesfullu'})
+     setterFunction(false);
+  }
+
+    // Reset form after submission
     reset();
   };
 
@@ -42,7 +55,7 @@ export default function UpdateProductModal({ selectedProductId, modalShow, sette
       <Box
         sx={{
           width: { sm: "w-full", md: "500px" },
-          height: "220px",
+          height: "320px",
           backgroundColor: "white",
           transform: "translate(-50%, -50%)",
           position: "absolute",
@@ -82,6 +95,28 @@ export default function UpdateProductModal({ selectedProductId, modalShow, sette
             },
           }}
         >
+            <FormControl color="success" error={!!errors.buyingPrice} fullWidth>
+            <InputLabel
+              htmlFor="buyingPrice"
+              color="success"
+              error={!!errors.buyingPrice}
+            >
+             BuyingPrice
+            </InputLabel>
+            <Controller
+              name="buyingPrice"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  id="buyingPrice"
+                  aria-describedby="buyingPrice"
+                  fullWidth
+                  {...field}
+                  className="mb-7 pl-3"
+                />
+              )}
+            /> 
+            </FormControl>
           <FormControl color="success" error={!!errors.expiredDate} fullWidth>
             <FormControl color="success" error={!!errors.expiredDate} fullWidth>
               <InputLabel

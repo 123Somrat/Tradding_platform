@@ -19,7 +19,7 @@ const customBaseQuery: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const response = await baseQuery(args, api, extraOptions);
-
+   console.log(args)
   return response;
 };
 

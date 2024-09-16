@@ -26,7 +26,6 @@ const expiredDueApi = dueApi.injectEndpoints({
           sellingPrice: sellingPrice,
           sellingDate: sellingDate,
         };
-
         return {
           url: `${expiredDue}/${id}`,
           method: "PATCH",
@@ -44,14 +43,15 @@ const expiredDueApi = dueApi.injectEndpoints({
         };
       },
     }),
-    patchExpiredDueDate: build.mutation({
-      query: ({ haveToUpdateDueId, updatedExpiredDueDate }) => {
-        console.log(haveToUpdateDueId, updatedExpiredDueDate);
+    updateExpiredDueDate: build.mutation({
+      query: ({ haveToUpdateProductId, updatedBuyingPrice ,  updatedExpiredDate }) => {
+         const updatedInfo = {updatedBuyingPrice,updatedExpiredDate}
+         console.log(updatedInfo)
         return {
-          url: `${expiredDue}/${haveToUpdateDueId}`,
-          method: "PATCH",
+          url: `${expiredDue}/${haveToUpdateProductId}`,
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: { data: updatedExpiredDueDate },
+          body: { data: updatedInfo },
         };
       },
       invalidatesTags: ["expiredDues"],
