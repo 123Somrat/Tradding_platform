@@ -12,7 +12,7 @@ const expiredDueApi = dueApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags:['expiredDues'],
+      providesTags: ["expiredDues"],
       transformResponse: (response: TResponseRedux<TDues[]>) => {
         return {
           data: response.data,
@@ -21,19 +21,22 @@ const expiredDueApi = dueApi.injectEndpoints({
       },
     }),
     patchExpiredDueSellingPrice: build.mutation({
-      query: ({ id, sellingPrice , sellingDate}) => {
-       const soldOutPriceAndDate = {sellingPrice:sellingPrice,sellingDate:sellingDate};
-        
+      query: ({ id, sellingPrice, sellingDate }) => {
+        const soldOutPriceAndDate = {
+          sellingPrice: sellingPrice,
+          sellingDate: sellingDate,
+        };
+
         return {
           url: `${expiredDue}/${id}`,
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body:{data:soldOutPriceAndDate}
+          body: { data: soldOutPriceAndDate },
         };
       },
-      invalidatesTags:['expiredDues'],
+      invalidatesTags: ["expiredDues"],
       transformResponse: (response: TResponseRedux<TDues[]>) => {
         return {
           data: response.data,
@@ -41,15 +44,27 @@ const expiredDueApi = dueApi.injectEndpoints({
         };
       },
     }),
+    patchExpiredDueDate: build.mutation({
+      query: ({ haveToUpdateDueId, updatedExpiredDueDate }) => {
+        console.log(haveToUpdateDueId, updatedExpiredDueDate);
+        return {
+          url: `${expiredDue}/${haveToUpdateDueId}`,
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: { data: updatedExpiredDueDate },
+        };
+      },
+      invalidatesTags: ["expiredDues"],
+    }),
+
     deleteADue: build.mutation({
       query: (id) => {
         return {
           url: `${expiredDue}/${id}`,
           method: "DELETE",
         };
-        
       },
-      invalidatesTags:["expiredDues"]
+      invalidatesTags: ["expiredDues"],
     }),
   }),
 });
