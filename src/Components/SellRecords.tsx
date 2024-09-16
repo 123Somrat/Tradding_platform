@@ -185,9 +185,10 @@ export default function SellRecords() {
         </Table>
        { data?.data?.length as number > 0 && <><Pagination
           count={totalIteams}
-          sx={{ m: 2 }}
+          sx={{ m: 2 ,"& .MuiPagination-root Mui-selected":{color:"red"}}}
           page={currentPage.page}
           onChange={(_e, page) => setSelectedPage({ page: page })}
+     
         />
         <Divider></Divider></>} 
       </TableContainer>

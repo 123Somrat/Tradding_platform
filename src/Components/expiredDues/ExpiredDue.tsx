@@ -16,10 +16,13 @@ import { useState } from "react";
 
 import SellModal from "./SellModal";
 import Swal from "sweetalert2";
+import UpdateProductModal from "./UpdateProductModal";
 
 export default function ExpiredDue() {
-  const [showsellModal, setShowSellModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [showsellDueModal, setShowSellDueModal] = useState(false);
+  const [showUpdateDueModal, setShowUpdateDueModal] = useState(false);
+  const [selectedSellProduct, setSelectedSellProduct] = useState("");
+  const [selecteUpdateProduct, setSelectedUpdateProduct] = useState("");
   const useGetAllExpiredDuesQuerys =
     expiredDueApi.endpoints.getAllExpiredDues.useQuery;
   // Fetch expired data
@@ -39,7 +42,7 @@ export default function ExpiredDue() {
   );
 
   // Modal open and close
-  const showSellModal = (id: string) => {
+  const showSellModal = (dueId: string) => {
     // showing a alert user want to sell or not
     Swal.fire({
       title: "Are you sure?",
@@ -51,10 +54,17 @@ export default function ExpiredDue() {
       confirmButtonText: "Yes, sell it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        setSelectedProduct(id);
-        setShowSellModal(true);
+        setSelectedSellProduct(dueId);
+        setShowSellDueModal(true);
       }
     });
+  };
+
+  //
+
+  const showUpdateDuesModal = (dueId: string) => {
+    setSelectedUpdateProduct(dueId);
+    setShowUpdateDueModal(true);
   };
 
   return (
@@ -64,14 +74,21 @@ export default function ExpiredDue() {
       </Typography>
       <Divider></Divider>
 
-      {showsellModal && (
+      {showsellDueModal && (
         <SellModal
-          modalShow={showsellModal}
-          setterFunction={setShowSellModal}
-          selectedProductId={selectedProduct}
+          modalShow={showsellDueModal}
+          setterFunction={setShowSellDueModal}
+          selectedProductId={selectedSellProduct}
         />
       )}
 
+      {showUpdateDueModal && (
+        <UpdateProductModal
+          modalShow={showUpdateDueModal}
+          selectedProductId={selecteUpdateProduct}
+          setterFunction={setShowUpdateDueModal}
+        />
+      )}
       <TableContainer>
         <Table>
           <TableHead>
@@ -111,7 +128,11 @@ export default function ExpiredDue() {
                     >
                       Sell
                     </Button>
-                    <Button variant="outlined" color="success">
+                    <Button
+                      variant="outlined"
+                      color="success"
+                      onClick={() => showUpdateDuesModal(due._id as string)}
+                    >
                       Update
                     </Button>
                   </StyledTableCell>

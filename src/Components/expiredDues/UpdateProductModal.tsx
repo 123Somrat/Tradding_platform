@@ -1,67 +1,34 @@
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { TSellPrice, TShowModalProps } from "../../types/types";
 import {
   Box,
   Button,
   FormControl,
-  Input,
   InputLabel,
   Modal,
   Typography,
 } from "@mui/material";
-import expiredDueApi from "../../Redux/api/expiredDueApi";
-import Swal from "sweetalert2";
+import { TShowModalProps } from "../../types/types";
+import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-const SellModal = ({
-  selectedProductId,
-  modalShow,
-  setterFunction,
-}: TShowModalProps) => {
-  const useUpdateExpiredDueSellingPriceMutation =
-    expiredDueApi.endpoints.patchExpiredDueSellingPrice.useMutation;
-  const [updateExpiredDueSellingPrice] =
-    useUpdateExpiredDueSellingPriceMutation();
+export default function UpdateProductModal({ selectedProductId, modalShow, setterFunction,}: TShowModalProps) {
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<TSellPrice>({
-    defaultValues: { sellingPrice: "", sellingDate: "" },
+  const { handleSubmit, control, formState: { errors },reset,} = useForm<{ expiredDate: string }>({
+     defaultValues: {
+      expiredDate: "",
+    },
   });
 
-  //const selectedProductDetails = rows.find(due=>due._id===selectedProduct)
-
-  const Submit: SubmitHandler<TSellPrice> = async (paylode: TSellPrice) => {
-    // Gathering Data
-    const sellingPrice = paylode.sellingPrice;
-    const sellingDate = paylode.sellingDate;
-
-    const data = await updateExpiredDueSellingPrice({
-      id: selectedProductId,
-      sellingPrice: sellingPrice,
-      sellingDate: sellingDate,
-    });
-
-    // hide the modal
+  // Submit handeler
+  const Submit = (FormInputDate: { expiredDate: string }) => {
+    console.log(FormInputDate);
+    console.log(selectedProductId)
     setterFunction(false);
-
-    // show succes alert
-    if (data.data) {
-      Swal.fire({
-        title: "Sold!",
-        text: "Your due has been sold.",
-        icon: "success",
-      });
-    }
-
     reset();
   };
 
-  const closeModal = () => {
+  // Modal Close function
+  const CloseModal = () => {
     setterFunction(false);
   };
 
@@ -75,7 +42,7 @@ const SellModal = ({
       <Box
         sx={{
           width: { sm: "w-full", md: "500px" },
-          height: "320px",
+          height: "220px",
           backgroundColor: "white",
           transform: "translate(-50%, -50%)",
           position: "absolute",
@@ -91,7 +58,7 @@ const SellModal = ({
           m={2}
           className="text-center text-green-800 "
         >
-          Enter your selling price and selling date
+          Enter updated expiredDate
         </Typography>
         <Box
           component="form"
@@ -115,39 +82,19 @@ const SellModal = ({
             },
           }}
         >
-          <FormControl color="success" error={!!errors.sellingPrice} fullWidth>
-            <InputLabel
-              htmlFor="sellPrice"
-              color="success"
-              error={!!errors.sellingPrice}
-            >
-              SellingPrice
-            </InputLabel>
-            <Controller
-              name="sellingPrice"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  id="sellPrice"
-                  aria-describedby="sellPrice"
-                  fullWidth
-                  {...field}
-                  className="mb-7 pl-3"
-                />
-              )}
-            />
-            <FormControl color="success" error={!!errors.sellingDate} fullWidth>
+          <FormControl color="success" error={!!errors.expiredDate} fullWidth>
+            <FormControl color="success" error={!!errors.expiredDate} fullWidth>
               <InputLabel
-                htmlFor="sellingDate"
+                htmlFor="ExpiredDate"
                 color="success"
-                error={!!errors.sellingDate}
+                error={!!errors.expiredDate}
               ></InputLabel>
               <Controller
-                name="sellingDate"
+                name="expiredDate"
                 control={control}
                 render={({ field }) => (
                   <DatePicker
-                    label="Selling Date"
+                    label="Expired Date"
                     disablePast
                     formatDensity="spacious"
                     disableHighlightToday
@@ -170,13 +117,6 @@ const SellModal = ({
                 )}
               />
             </FormControl>
-            {/*   
-            {sellPrice ? (
-              <span className="text-red-600">{sellPrice}</span>
-            ) : (
-              ""
-            )}
-*/}
           </FormControl>
           <Button
             variant="outlined"
@@ -184,13 +124,13 @@ const SellModal = ({
             type="submit"
             sx={{ mr: 2 }}
           >
-            Sell
+            Update
           </Button>
           <Button
             variant="outlined"
             color="warning"
             className="block ml-2"
-            onClick={closeModal}
+            onClick={CloseModal}
           >
             Close
           </Button>
@@ -198,6 +138,4 @@ const SellModal = ({
       </Box>
     </Modal>
   );
-};
-
-export default SellModal;
+}
