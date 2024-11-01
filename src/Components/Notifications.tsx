@@ -1,7 +1,7 @@
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { socket } from "../Socket";
+import { expiredDueNotifications} from "../Socket";
 
 export default function Notifications() {
   const [shownotification, setShowNotification] = useState(false);
@@ -16,13 +16,15 @@ export default function Notifications() {
 
   // web socket notification listener event
   useEffect(() => {
-    socket.on("expiredDueNotifications", (data) => {
+    expiredDueNotifications.on("expiredDueNotifications", (data) => {
       setNotifications(data);
       setNotificationCount(data.length);
     });
-
+    expiredDueNotifications.on('connect_error', (error) => {
+      console.error('Connection error:', error.message); // Log error message
+  });
     return () => {
-      socket.off("expiredDueNotifications");
+      expiredDueNotifications.off("expiredDueNotifications");
 
     };
   }, []);

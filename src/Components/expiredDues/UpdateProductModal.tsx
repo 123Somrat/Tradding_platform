@@ -14,27 +14,47 @@ import dayjs from "dayjs";
 import expiredDueApi from "../../Redux/api/expiredDueApi";
 import showInfoAlert from "../../Utils/showInfoAlert";
 
-export default function UpdateProductModal({ selectedProductId, modalShow, setterFunction,}: TShowModalProps) {
-    const useUpdateExpiredDueDate = expiredDueApi.endpoints.updateExpiredDueDate.useMutation;
-    const [updateExpiredDueDate] = useUpdateExpiredDueDate();
-  const { handleSubmit, control, formState: { errors },reset,} = useForm<{buyingPrice:string, expiredDate: string }>({
-     defaultValues: {
-      buyingPrice:'',
+export default function UpdateProductModal({
+  selectedProductId,
+  modalShow,
+  setterFunction,
+}: TShowModalProps) {
+
+  const useUpdateExpiredDueDate =
+    expiredDueApi.endpoints.updateExpiredDueDate.useMutation;
+  const [updateExpiredDueDate] = useUpdateExpiredDueDate();
+  
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<{ buyingPrice: string; expiredDate: string }>({
+    defaultValues: {
+      buyingPrice: "",
       expiredDate: "",
     },
   });
-     
+
   // Submit handeler
-  const Submit =async ({buyingPrice , expiredDate}: {buyingPrice:string, expiredDate: string }) => {
+  const Submit = async ({
+    buyingPrice,
+    expiredDate,
+  }: {
+    buyingPrice: string;
+    expiredDate: string;
+  }) => {
+    const data = await updateExpiredDueDate({
+      haveToUpdateProductId: selectedProductId,
+      updatedBuyingPrice: buyingPrice,
+      updatedExpiredDate: expiredDate,
+    });
 
-   const data = await updateExpiredDueDate({haveToUpdateProductId:selectedProductId,updatedBuyingPrice:buyingPrice,updatedExpiredDate:expiredDate})
-     
-
-   // Showing alert and close modal if data updated succesfully
-  if(data.data){
-     showInfoAlert({icon:"success",title:'Due updated succesfullu'})
-     setterFunction(false);
-  }
+    // Showing alert and close modal if data updated succesfully
+    if (data.data) {
+      showInfoAlert({ icon: "success", title: "Due updated succesfullu" });
+      setterFunction(false);
+    }
 
     // Reset form after submission
     reset();
@@ -95,13 +115,13 @@ export default function UpdateProductModal({ selectedProductId, modalShow, sette
             },
           }}
         >
-            <FormControl color="success" error={!!errors.buyingPrice} fullWidth>
+          <FormControl color="success" error={!!errors.buyingPrice} fullWidth>
             <InputLabel
               htmlFor="buyingPrice"
               color="success"
               error={!!errors.buyingPrice}
             >
-             BuyingPrice
+              BuyingPrice
             </InputLabel>
             <Controller
               name="buyingPrice"
@@ -115,8 +135,8 @@ export default function UpdateProductModal({ selectedProductId, modalShow, sette
                   className="mb-7 pl-3"
                 />
               )}
-            /> 
-            </FormControl>
+            />
+          </FormControl>
           <FormControl color="success" error={!!errors.expiredDate} fullWidth>
             <FormControl color="success" error={!!errors.expiredDate} fullWidth>
               <InputLabel

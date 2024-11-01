@@ -43,7 +43,7 @@ export default function AllDue() {
   // Fethcing all dues
   const { data, isFetching, isError } = useGetDuesQuerys(queryParams);
 
-   
+  
 //console.log(dayjs(data?.data[0].createdAt).format('HH').diff('2024-09'))
   const totalPage = data?.meta?.totalPage;
 

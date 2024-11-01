@@ -11,7 +11,9 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:4000/api/v1",
   credentials: "include",
   prepareHeaders: () => {},
-});
+
+  },
+);
 
 const customBaseQuery: BaseQueryFn<
   string | FetchArgs,
@@ -19,7 +21,7 @@ const customBaseQuery: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const response = await baseQuery(args, api, extraOptions);
-   console.log(args)
+   console.log(response)
   return response;
 };
 
