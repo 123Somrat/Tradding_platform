@@ -42,19 +42,19 @@ A **TypeScript-based** frontend application for managing dues efficiently. It in
    ```
    git clone https://github.com/123Somrat/Tradding_platform.git
    
-```
+   ```
 2. ** CChange directory
-```
-cd due-management
-```
+   ```
+   cd due-management
+   ```
 3. **Inatall dependencies
-```
-npm install 
-```
+   ```
+   npm install 
+   ```
 4. **Run the project
-```
-npm run dev
-```
+   ```
+   npm run dev
+   ```
 ### Support 
 ##### For support , email [mdjafaruddinsomrat@gmail.com](mailto:mdjafaruddinsomrat@gmail.com)
 
